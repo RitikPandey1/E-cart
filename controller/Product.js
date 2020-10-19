@@ -17,8 +17,9 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-exports.uploadData = upload.single("photo");
+exports.uploadData = upload.array("photo",4);
 
+// get data of all products
 exports.getProducts = async (req, res, next) => {
   const products = await Product.find({ category: req.params.category });
 
@@ -28,53 +29,59 @@ exports.getProducts = async (req, res, next) => {
   });
 };
 
+// get specific image on any product
 exports.getProductImg = async (req, res, next) => {
-  
+  const { id, image } = req.params;
   const bucket_read = new GridFSBucket(mongoDB.db);
   mongoDB.db
     .collection("fs.files")
     .findOne(
       {
         $and: [
-          { "metadata.productId": new ObjectId(req.params.id) },
-          { "metadata.image": req.params.image },
+          { "metadata.productId": new ObjectId(id) },
+          { "metadata.link": image },
         ],
       },
       (err, result) => {
-        if(result) bucket_read.openDownloadStream(result._id).pipe(res);
+        result ? bucket_read.openDownloadStream(result._id).pipe(res) : res.status(404).json({ message: "image not found" });
       }
     );
 };
-//5f8c658c9e03333248cc60da
 
+// uploading products image in db
 exports.addProductImg = async (req, res, next) => {
-  const { image, name, _id  } = req.newProduct;
-  console.log(req.newProduct);
+  const { images, name, _id  } = req.newProduct;
+
   const bucket = new GridFSBucket(mongoDB.db);
 
-  fs.createReadStream(`img_cache/${image}`)
-    .pipe(
-      bucket.openUploadStream(`${name}`, {
-        metadata: {
-          productId: _id,
-        },
-      })
-    )
-    .on("finish", () => {
-      res.status(200).json({
-        status: "success",
-        data: req.newProduct,
-      });
-    });
+  images.forEach(img => {
+  fs.createReadStream(`img_cache/${img}`).pipe(
+    bucket.openUploadStream(`${name}`, {
+      metadata: {
+        productId: _id,
+        link: img,
+      },
+    })
+  );  
+  });
+  
+ res.status(200).json({
+   status: "success",
+   data: req.newProduct,
+ });
+
 };
 
+// adding products detail in db 
 exports.addProductDetails = async (req, res, next) => {
-  console.log(req.file);
+   
+  const fileNames = req.files.map(el => el.filename);
+
   const newProduct = await Product.create({
     name: req.body.name,
     price: req.body.price,
     category: req.body.category,
-    image: req.file.filename,
+    images: fileNames,
   });
 
   req.newProduct = newProduct;
