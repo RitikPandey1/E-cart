@@ -1,9 +1,9 @@
 const express = require('express');
-const { getProduct , addProduct } = require('../controller/Product');
+const { getProducts  ,uploadData, addProductDetails, addProductImg ,getProductImg} = require('../controller/Product');
 
 const router = express.Router();
 
-router.get('/:category', getProduct);
-router.post("/addProduct", addProduct);
-
+router.get('/:category', getProducts);
+router.post("/addProduct",uploadData,addProductDetails,addProductImg);
+router.get("/product_image/:id/:image",getProductImg);
 module.exports = router;

@@ -9,7 +9,7 @@ const productSchema = mongoose.Schema({
         type: Number,
         required:[true,'Price *required*']
     },
-    imageURL: String,
+    image: String,
     rating: {
         type:Number,
         min: [1,"Rating must be equal to 1 or greater"],
