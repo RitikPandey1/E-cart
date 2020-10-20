@@ -5,6 +5,7 @@ const fs = require("fs");
 const mongoDB = require("../server");
 const multer = require("multer");
 
+// multer disk storage config 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./img_cache");
@@ -29,7 +30,7 @@ exports.getProducts = async (req, res, next) => {
   });
 };
 
-// get specific image on any product
+// get specific image of any product
 exports.getProductImg = async (req, res, next) => {
   const { id, image } = req.params;
   const bucket_read = new GridFSBucket(mongoDB.db);
@@ -43,6 +44,7 @@ exports.getProductImg = async (req, res, next) => {
         ],
       },
       (err, result) => {
+        //  connecting gridfs readable stream to res write stream 
         result ? bucket_read.openDownloadStream(result._id).pipe(res) : res.status(404).json({ message: "image not found" });
       }
     );
@@ -55,6 +57,7 @@ exports.addProductImg = async (req, res, next) => {
   const bucket = new GridFSBucket(mongoDB.db);
 
   images.forEach(img => {
+    //connecting readstream to gridfs write stream 
   fs.createReadStream(`img_cache/${img}`).pipe(
     bucket.openUploadStream(`${name}`, {
       metadata: {

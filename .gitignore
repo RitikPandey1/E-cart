@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/img_cache
 client/node_modules
 /.pnp
 .pnp.js
