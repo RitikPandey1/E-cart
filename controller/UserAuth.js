@@ -32,14 +32,14 @@ exports.signUp = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password)
-    res
+    return res
       .status(400)
       .json({ status: "Fail", message: "Please provide email and password" });
 
   const user = await User.findOne({ email }).select("+password");
 
   if (!user || !(await user.checkPassword(password, user.password)))
-    res
+    return res
       .status(401)
       .json({ status: "Fail", message: "email or password incorrect" });
 
@@ -67,9 +67,9 @@ exports.protectFirewall = async (req, res, next) => {
       .status(401)
       .json({ status: "Fail", message: "Please login to get access" });
   let decode = await promisify(jwt.verify)(token, process.env.KEY);
-  const user = await User.findById(decode.id);
+  const user = await User.findById(decode.id).select("+password");
   if (!user)
-   return res.status(404).json({
+    return res.status(404).json({
       status: "Fail",
       message: "account not found ,Please create your account",
     });
@@ -78,11 +78,14 @@ exports.protectFirewall = async (req, res, next) => {
 };
 
 exports.updatePassword = async (req, res, next) => {
-  const { currentPassword , newPassword , confirmPassword} = req.body;
+  const { currentPassword, newPassword, confirmPassword } = req.body;
   const user = await User.findById(req.user._id);
-
-  if (!(await user.checkPassword( currentPassword, req.user.password)))
-    return res.status(400).json({ status: "Fail", message: "password not matched" });
+  console.log(currentPassword);
+  console.log(req.user);
+  if (!(await user.checkPassword(currentPassword, req.user.password)))
+    return res
+      .status(400)
+      .json({ status: "Fail", message: "password not matched" });
   user.password = newPassword;
   user.confirmPassword = confirmPassword;
   await user.save();
