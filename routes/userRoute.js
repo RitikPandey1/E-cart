@@ -14,6 +14,7 @@ router.get("/logout", logout);
 
 router.use(protectFirewall);
 router.post("/updatepassword", updatePassword);
+ 
 router.get("/someinfo", (req, res) => {
   res.write("hurray you got it !!");
   res.end();

@@ -25,7 +25,7 @@ exports.getProducts = async (req, res, next) => {
   const products = await Product.find({ category: req.params.category });
 
   res.status(200).json({
-    status: "success",
+    status: "Success",
     data: products,
   });
 };
@@ -69,7 +69,7 @@ exports.addProductImg = async (req, res, next) => {
   });
   
  res.status(200).json({
-   status: "success",
+   status: "Success",
    data: req.newProduct,
  });
 
