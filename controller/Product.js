@@ -22,6 +22,7 @@ exports.uploadData = upload.array("photo",4);
 
 // get data of all products
 exports.getProducts = async (req, res, next) => {
+  console.log("in2");
   const products = await Product.find({ category: req.params.category });
 
   res.status(200).json({

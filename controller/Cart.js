@@ -12,18 +12,17 @@ exports.checkProduct = async (req, res, next) => {
 };
 
 exports.getCart = async (req, res, next) => {
-  const cartList = await Cart.find({ user: req.params.id });
-
+  const cartList = await Cart.find({ user: req.user._id });
   res
     .status("200")
     .json({ status: "Success", items: cartList.length, data: cartList });
 };
 
 exports.addToCart = async (req, res, next) => {
-  const { pid, uid } = req.params;
+  const { pid } = req.params;
 
   await Cart.create({
-    user: uid,
+    user: req.user._id,
     product: pid,
   });
 

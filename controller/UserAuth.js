@@ -54,6 +54,7 @@ exports.logout = (req, res, next) => {
 exports.protectFirewall = async (req, res, next) => {
   let token;
 
+  console.log("in");
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -74,6 +75,7 @@ exports.protectFirewall = async (req, res, next) => {
       message: "account not found ,Please create your account",
     });
   req.user = user;
+  console.log(req.user);
   next();
 };
 
