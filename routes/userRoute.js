@@ -9,10 +9,11 @@ const {
 const router = express.Router();
 
 router.post("/signup", signUp);
-router.post("/login", login);
+
 router.get("/logout", logout);
 
 router.use(protectFirewall);
+router.post("/login", login);
 router.post("/updatepassword", updatePassword);
  
 router.get("/someinfo", (req, res) => {

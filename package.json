@@ -19,6 +19,7 @@
     "mongoose": "^5.10.9",
     "multer": "^1.4.2",
     "nodemon": "^2.0.5",
+    "stripe": "^8.115.0",
     "validator": "^13.1.17"
   }
 }

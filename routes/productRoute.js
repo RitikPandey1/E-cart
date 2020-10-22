@@ -14,16 +14,22 @@ const {
   getCart,
 } = require("../controller/Cart");
 
+const {addReview, removeReview, getReviews} = require("../controller/Review");
 const router = express.Router();
 
-router.get("category/:category", getProducts);
-
+router.get("/category/:category", getProducts);
 router.get("/product_image/:id/:image", getProductImg);
+router.get("/product/:id/reviews", getReviews);
 
 router.use(protectFirewall);
-router.post("/addProduct", uploadData, addProductDetails, addProductImg);
+router.post("/add/Product", uploadData, addProductDetails, addProductImg);
 router.get("/product/:pid/addtocart", checkProduct, addToCart);
-router.get("/cart/item/:id/remove", removeFromCart);
-router.get("/cartlist",getCart);
+router.delete("/cart/item/:id/remove", removeFromCart);
+router.get("/cart/list",getCart);
+
+//--product review routes
+router.post("/add/review", addReview);
+router.delete("/remove/review/:id", removeReview);
+
 
 module.exports = router;
