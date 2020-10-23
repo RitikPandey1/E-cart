@@ -68,6 +68,10 @@ exports.protectFirewall = catchError(async (req, res, next) => {
     return next(
       new AppError("Fail", "account not found ,Please create your account", 404)
     );
+  if (user.checkPasswordUpdate(decode.iat))
+    return next(
+      new AppError("Fail", "password updated , please use new password", 400)
+    );
   req.user = user;
 
   next();

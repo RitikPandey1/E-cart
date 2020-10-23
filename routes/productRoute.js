@@ -14,7 +14,12 @@ const {
   getCart,
 } = require("../controller/Cart");
 
-const {addReview, removeReview, getReviews} = require("../controller/Review");
+const {
+  addReview,
+  getReviews,
+  insertRating,
+  checkDuplicate,
+} = require("../controller/Review");
 const router = express.Router();
 
 router.get("/category/:category", getProducts);
@@ -25,11 +30,9 @@ router.use(protectFirewall);
 router.post("/add/Product", uploadData, addProductDetails, addProductImg);
 router.get("/product/:pid/addtocart", checkProduct, addToCart);
 router.delete("/cart/item/:id/remove", removeFromCart);
-router.get("/cart/list",getCart);
+router.get("/cart/list", getCart);
 
 //--product review routes
-router.post("/add/review", addReview);
-router.delete("/remove/review/:id", removeReview);
-
+router.post("/add/review", checkDuplicate, insertRating, addReview);
 
 module.exports = router;
