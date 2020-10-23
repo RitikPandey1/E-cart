@@ -17,7 +17,7 @@ const sendToken = (res, data) => {
   };
 
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
-  console.log(token);
+
   res.cookie("jwt", token, cookieOptions);
   res.status(201).json({ status: "Success" });
 };
@@ -73,7 +73,6 @@ exports.protectFirewall = catchError(async (req, res, next) => {
       new AppError("Fail", "password updated , please use new password", 400)
     );
   req.user = user;
-
   next();
 });
 
