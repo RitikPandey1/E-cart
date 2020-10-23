@@ -1,6 +1,7 @@
 const Review = require("../model/reviewModel");
+const catchError = require("../utils/catchError");
 
-exports.addReview = async (req, res, next) => {
+exports.addReview = catchError(async (req, res, next) => {
   const { review, rating, product } = req.body;
   const response = await Review.create({
     review,
@@ -13,19 +14,19 @@ exports.addReview = async (req, res, next) => {
     message: " review submitted",
     data: response,
   });
-};
+});
 
-exports.removeReview = async (req, res, next) => {
+exports.removeReview = catchError(async (req, res, next) => {
   const { id } = req.params;
   await Review.findByIdAndDelete(id);
   res.status(201).json({
     status: "Success",
     message: "review removed",
   });
-};
+});
 
-exports.getReviews = async (req, res, next) => {
+exports.getReviews = catchError(async (req, res, next) => {
   const { id } = req.params;
   const reviews = await Review.find({ product: id }).select("-_id");
   res.status(200).json({ status: "Success", data: reviews });
-};
+});

@@ -3,13 +3,14 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const productRouter = require("./routes/productRoute");
 const userRouter = require("./routes/userRoute");
+const errorHandler = require("./utils/errorHandler");
 
 const app = express();
 
 dotenv.config({ path: "./config.env" });
 
 (async () => {
-  const mongo = await mongoose.connect(process.env.DATABASE,{
+  const mongo = await mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
@@ -23,6 +24,8 @@ app.use(express.json());
 
 app.use("/api/v1/ecartProducts/", productRouter);
 app.use("/api/v1/ecartUsers", userRouter);
+
+app.use(errorHandler);
 
 app.listen(process.env.PORT, () =>
   console.log(`-- server running at PORT: ${process.env.PORT} --`)

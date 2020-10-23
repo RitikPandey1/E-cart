@@ -3,6 +3,10 @@ const bcrypt = require("bcrypt");
 const validator = require("validator");
 
 const userSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, "user name required"],
+  },
   email: {
     type: String,
     required: [true, "Please provide email"],
@@ -26,17 +30,17 @@ const userSchema = mongoose.Schema({
       message: "Confirm password is not same as password",
     },
   },
-  date: Date,
-  passwordChangeAt: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
-userSchema.pre("save",async function (next) {
-    
-    if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 12);
-    this.confirmPassword = undefined;
-    next();
-    
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  this.confirmPassword = undefined;
+  next();
 });
 
 userSchema.methods.checkPassword = async (givenPass, reqPass) =>
