@@ -2,11 +2,13 @@ import React,{useEffect,useState} from 'react';
 import Grid from "@material-ui/core/Grid";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Toolbar, Typography, Link, Paper, Switch } from "@material-ui/core";
+import { Toolbar, Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
+import Spinner from "./spinner/Spinner";
+
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +41,7 @@ const MainPageLayout = () => {
       <Toolbar />
       <div style={{ overflow: "hidden" }}>
         {loading ? (
-          <Typography>loading </Typography>
+          <Spinner/>
         ) : (
           <Grid container spacing={2}>
             {products.map((product, i) => (

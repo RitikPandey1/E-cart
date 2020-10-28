@@ -8,9 +8,7 @@ import {
 import ClearAllIcon from "@material-ui/icons/ClearAll";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import { makeStyles } from "@material-ui/core/styles";
-import { Menu } from "@material-ui/icons";
-import * as React from "react";
-import { useState } from "react";
+import React,{ useState } from "react";
 
 const useStyles = makeStyles({
   list: {
@@ -47,7 +45,7 @@ const SideDrawer = ({ navLinks }) => {
     >
       <List component="nav">
         {navLinks.map(({ title, path,icon }) => (
-          <a href={path} key={title} >
+          <a href={path} key={title} classes={classes.linkText} >
             <ListItem button>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={title} />
