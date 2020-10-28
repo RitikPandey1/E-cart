@@ -5,14 +5,12 @@ const Footer = () => {
   return (
     <AppBar
       style={{
-        bottom: 0,
-        top: "auto",
-        backgroundColor: "#E74C3C",
+        backgroundColor: "#2980b9",
         textAlign: "center",
-         padding:"10px" 
-          }}
+        padding: "10px",
+      }}
     >
-     <p>Made with &#9825; , by Ritik Pandey</p>
+      <p>Made with &#9825; , by Ritik Pandey</p>
     </AppBar>
   );
 };

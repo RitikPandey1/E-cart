@@ -5,6 +5,8 @@ import {
   ListItem,
   ListItemText,
 } from "@material-ui/core";
+import ClearAllIcon from "@material-ui/icons/ClearAll";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import { makeStyles } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/icons";
 import * as React from "react";
@@ -23,7 +25,7 @@ const useStyles = makeStyles({
 
 const SideDrawer = ({ navLinks }) => {
   const classes = useStyles();
-  const [state, setState] = useState({ right: false });
+  const [state, setState] = useState({ left: false });
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -44,9 +46,10 @@ const SideDrawer = ({ navLinks }) => {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List component="nav">
-        {navLinks.map(({ title, path }) => (
-          <a href={path} key={title} className={classes.linkText}>
+        {navLinks.map(({ title, path,icon }) => (
+          <a href={path} key={title} >
             <ListItem button>
+              <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={title} />
             </ListItem>
           </a>
@@ -60,18 +63,19 @@ const SideDrawer = ({ navLinks }) => {
       <IconButton
         edge="start"
         aria-label="menu"
-        onClick={toggleDrawer("right", true)}
+        onClick={toggleDrawer("left", true)}
+        style={{marginLeft:0,marginRight:"auto"}}
       >
-        <Menu fontSize="large" style={{ color: `white` }} />
+        <ClearAllIcon fontSize="large" color="primary" />
       </IconButton>
 
       <Drawer
-        anchor="right"
-        open={state.right}
-        onOpen={toggleDrawer("right", true)}
-        onClose={toggleDrawer("right", false)}
+        anchor="left"
+        open={state.left}
+        onOpen={toggleDrawer("left", true)}
+        onClose={toggleDrawer("left", false)}
       >
-        {sideDrawerList("right")}
+        {sideDrawerList("left")}
       </Drawer>
     </React.Fragment>
   );
