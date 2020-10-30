@@ -1,8 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import MainPageLayout from "./MainPageLayout";
+import ProductGrid from "./ProductGrid";
 import TopBar from "./TopBar";
-import { Route ,Switch,useRouteMatch} from "react-router-dom";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Grid } from "@material-ui/core";
+import Footer from "./Footer";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -15,13 +17,26 @@ const Main = () => {
   console.log(path);
   return (
     <div className={classes.root}>
-      <TopBar />
-      <Switch>
-        <Route
-          path={`${path}/products/:category`}
-          component={MainPageLayout}
-        />
-      </Switch>
+      <Grid container direction="column">
+        <Grid item>
+          <TopBar />
+        </Grid>
+        <Grid item container>
+          <Grid item xs={false} sm={2} />
+          <Grid item xs={12} sm={8}>
+            <Switch>
+              <Route
+                path={`${path}/products/:category`}
+                component={ProductGrid}
+              />
+            </Switch>
+          </Grid>
+          <Grid item xs={false} sm={2} />
+        </Grid>
+        <Grid item>
+          <Footer />
+        </Grid>
+      </Grid>
     </div>
   );
 };

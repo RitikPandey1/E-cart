@@ -9,6 +9,7 @@ const Footer = () => {
         textAlign: "center",
         padding: "10px",
       }}
+      position="static"
     >
       <p>Made with &#9825; , by Ritik Pandey</p>
     </AppBar>
