@@ -9,7 +9,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Spinner from "./spinner/Spinner";
 import axios from "axios";
-
+import Cookies from "js-cookie";
 const useStyles = makeStyles((theme) => ({
   card: {
     display: "flex",
@@ -36,7 +36,12 @@ const MainPageLayout = () => {
     getdata();
   }, [category]);
 
+ console.log(Cookies.get('jwt')); // => undefined 
+  
+  console.log(document.cookie);
+  
   return (
+    
     <>
       <div
         style={{ overflow: "hidden", marginTop: "50px", marginBottom: "50px" }}

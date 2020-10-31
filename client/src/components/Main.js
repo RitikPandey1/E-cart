@@ -26,7 +26,7 @@ const Main = () => {
           <Grid item xs={10} sm={8}>
             <Switch>
               <Route
-                path={`/products/:category`}
+               exact path={`/products/:category`}
                 component={ProductGrid}
               />
             </Switch>

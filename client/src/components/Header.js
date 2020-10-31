@@ -1,15 +1,11 @@
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-   Container,
-  } from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, Container } from "@material-ui/core";
 
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Cookies from "js-cookie";
 
 import ArrowDropDownCircleIcon from "@material-ui/icons/ArrowDropDownCircle";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
@@ -30,12 +26,10 @@ const useStyles = makeStyles({
   },
 });
 
-
-
 const Header = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-     
+
   const history = useHistory();
 
   const handleClick = (event) => {
@@ -47,12 +41,13 @@ const Header = () => {
     setAnchorEl(null);
     history.push(`/${id}`);
   };
+  
   return (
     <>
       <AppBar position="static" className={classes.header}>
         <Toolbar>
           <Container className={classes.navbarDisplayFlex}>
-            <IconButton className={classes.icon} aria-label="home" >
+            <IconButton className={classes.icon} aria-label="home">
               <ShoppingCartIcon /> E CART
             </IconButton>
 
@@ -70,13 +65,16 @@ const Header = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem id="signin" onClick={handleClose}>Sign in</MenuItem>
-              <MenuItem id="login" onClick={handleClose}>Login</MenuItem>
+              <MenuItem id="signin" onClick={handleClose}>
+                Sign in
+              </MenuItem>
+              <MenuItem id="login" onClick={handleClose}>
+                Login
+              </MenuItem>
             </Menu>
           </Container>
         </Toolbar>
       </AppBar>
-      
     </>
   );
 };

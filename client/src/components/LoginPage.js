@@ -6,8 +6,9 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
-import { Formik ,Form} from "formik";
+import { Link ,useHistory } from "react-router-dom";
+import { Formik, Form } from "formik";
+import axios from "axios";
 const useStyle = makeStyles((theme) => ({
   form: {
     display: "flex",
@@ -21,6 +22,7 @@ const useStyle = makeStyles((theme) => ({
 
 const LoginPage = () => {
   const classes = useStyle();
+  const history = useHistory();
   return (
     <>
       <Grid container>
@@ -40,14 +42,23 @@ const LoginPage = () => {
               }
               if (!values.password) {
                 errors.password = "Required";
+              } else if (values.password.length < 8) {
+                errors.password = "Password length must be 8 or more";
               }
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
+            const logIn = async () => {
+              const { data } = await axios.post("/api/v1/ecartUsers/login", {
+                ...values,
+              });
+              if (data.status === "Success") {
+                console.log(data);
                 setSubmitting(false);
-              }, 400);
+                history.push("/");
+              }
+            };
+            logIn();
             }}
           >
             {({ isSubmitting, errors, handleChange, touched }) => (
