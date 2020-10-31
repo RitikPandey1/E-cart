@@ -1,13 +1,8 @@
-import {
-  Button,
-  Grid,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { Formik ,Form} from "formik";
+import { Formik, Form } from "formik";
 const useStyle = makeStyles((theme) => ({
   form: {
     display: "flex",
@@ -19,7 +14,7 @@ const useStyle = makeStyles((theme) => ({
   formElement: { margin: theme.spacing(2, 0, 2, 0) },
 }));
 
-const LoginPage = () => {
+const SignInPage = () => {
   const classes = useStyle();
   return (
     <>
@@ -27,10 +22,14 @@ const LoginPage = () => {
         <Grid item xs={1} sm={4} />
         <Grid item xs={10} sm={4}>
           <Formik
-            initialValues={{ email: "", password: "" }}
+            initialValues={{
+              name: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+            }}
             validate={(values) => {
               const errors = {};
-              console.log(values);
               if (!values.email) {
                 errors.email = "Required";
               } else if (
@@ -41,6 +40,14 @@ const LoginPage = () => {
               if (!values.password) {
                 errors.password = "Required";
               }
+              if (!values.name) {
+                errors.name = "Required";
+              }
+              if (!values.confirmPassword) {
+                errors.confirmPassword = "Required";
+              } else if (values.confirmPassword !== values.password) {
+                errors.confirmPassword = "Password not matched";
+              }
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
@@ -50,17 +57,26 @@ const LoginPage = () => {
               }, 400);
             }}
           >
-            {({ isSubmitting, errors, handleChange, touched }) => (
+            {({ isSubmitting, handleChange, errors, touched }) => (
               <Form className={classes.form}>
-                <Typography variant="h5"> Login to ECART</Typography>
+                <Typography variant="h5">Create your account</Typography>
+                <TextField
+                  fullWidth
+                  className={classes.formElement}
+                  label="Name"
+                  id="name"
+                  onChange={handleChange}
+                  variant="outlined"
+                  helperText={errors.name && touched.name && errors.name}
+                  error={errors.name && touched.name && true}
+                />
                 <TextField
                   fullWidth
                   className={classes.formElement}
                   label="Email"
                   id="email"
-                  type="email"
-                  variant="outlined"
                   onChange={handleChange}
+                  variant="outlined"
                   helperText={errors.email && touched.email && errors.email}
                   error={errors.email && touched.email && true}
                 />
@@ -70,25 +86,42 @@ const LoginPage = () => {
                   label="Password"
                   id="password"
                   type="password"
-                  variant="outlined"
                   onChange={handleChange}
+                  variant="outlined"
                   helperText={
                     errors.password && touched.password && errors.password
                   }
                   error={errors.password && touched.password && true}
                 />
+                <TextField
+                  fullWidth
+                  className={classes.formElement}
+                  label="Confirm password"
+                  id="confirmPassword"
+                  onChange={handleChange}
+                  type="password"
+                  variant="outlined"
+                  helperText={
+                    errors.confirmPassword &&
+                    touched.confirmPassword &&
+                    errors.confirmPassword
+                  }
+                  error={
+                    errors.confirmPassword && touched.confirmPassword && true
+                  }
+                />
                 <Button
                   fullWidth
                   variant="contained"
-                  type="submit"
                   className={classes.formElement}
                   color="primary"
+                  type="submit"
                   disabled={isSubmitting}
                 >
-                  login
+                  sign in
                 </Button>
                 <Typography variant="subtitle1">
-                  Create new account <Link to="/signin">Sign in</Link>
+                  Already have an account ? <Link to="/login">login</Link>
                 </Typography>
               </Form>
             )}
@@ -100,4 +133,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignInPage;

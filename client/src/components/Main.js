@@ -22,16 +22,16 @@ const Main = () => {
           <TopBar />
         </Grid>
         <Grid item container>
-          <Grid item xs={false} sm={2} />
-          <Grid item xs={12} sm={8}>
+          <Grid item xs={1} sm={2} />
+          <Grid item xs={10} sm={8}>
             <Switch>
               <Route
-                path={`${path}/products/:category`}
+                path={`/products/:category`}
                 component={ProductGrid}
               />
             </Switch>
           </Grid>
-          <Grid item xs={false} sm={2} />
+          <Grid item xs={1} sm={2} />
         </Grid>
         <Grid item>
           <Footer />

@@ -13,6 +13,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import ArrowDropDownCircleIcon from "@material-ui/icons/ArrowDropDownCircle";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   header: {
@@ -34,14 +35,17 @@ const useStyles = makeStyles({
 const Header = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  
+     
+  const history = useHistory();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (event) => {
+    const { id } = event.target;
     setAnchorEl(null);
+    history.push(`/${id}`);
   };
   return (
     <>
@@ -66,8 +70,8 @@ const Header = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Sign in</MenuItem>
-              <MenuItem onClick={handleClose}>Login</MenuItem>
+              <MenuItem id="signin" onClick={handleClose}>Sign in</MenuItem>
+              <MenuItem id="login" onClick={handleClose}>Login</MenuItem>
             </Menu>
           </Container>
         </Toolbar>

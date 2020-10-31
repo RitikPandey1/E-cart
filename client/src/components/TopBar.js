@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AppBar, Hidden } from "@material-ui/core";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import PhoneAndroidIcon from "@material-ui/icons/PhoneAndroid";
 import LaptopIcon from "@material-ui/icons/Laptop";
 import HeadsetIcon from "@material-ui/icons/Headset";
@@ -12,27 +12,35 @@ import SideBar from "./SideBar";
 const TopBar = () => {
   const [value, setValue] = useState(0);
   const history = useHistory();
-  const { url } = useRouteMatch();
-  console.log(url);
-
   const navLinks = [
     {
       title: "mobiles",
-      path: "/home/products/mobiles",
+      path: "/products/mobiles",
       icon: <PhoneAndroidIcon />,
     },
-    { title: "laptops", path: "/home/products/laptops", icon: <LaptopIcon /> },
+    {
+      title: "laptops",
+      path: "/products/laptops",
+      icon: <LaptopIcon />,
+    },
     {
       title: "headsets",
-      path: "/home/products/headsets",
+      path: "/products/headsets",
       icon: <HeadsetIcon />,
     },
     {
       title: "speaker",
-      path: "/home/products/speakers",
+      path: "/products/speakers",
       icon: <SurroundSoundIcon />,
     },
   ];
+
+  useEffect(() => {
+    const path = history.location.pathname;
+    navLinks.forEach((link,i) => {
+      if (path === link.path) setValue(i);
+    });
+  },[navLinks,history]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -48,26 +56,14 @@ const TopBar = () => {
           indicatorColor="primary"
           textColor="primary"
         >
-          <Tab
-            label="moblies"
-            icon={<PhoneAndroidIcon />}
-            onClick={() => history.push(`${url}/products/mobiles`)}
-          />
-          <Tab
-            label="laptops"
-            icon={<LaptopIcon />}
-            onClick={() => history.push(`${url}/products/laptops`)}
-          />
-          <Tab
-            label="headsets"
-            icon={<HeadsetIcon />}
-            onClick={() => history.push(`${url}/products/headsets`)}
-          />
-          <Tab
-            label="speakers"
-            icon={<SurroundSoundIcon />}
-            onClick={() => history.push(`${url}/products/speakers`)}
-          />
+          {navLinks.map((link,i) => (
+            <Tab
+              label={link.title}
+              icon={link.icon}
+              onClick={() => history.push(`${link.path}`)}
+              key={i}
+            />
+          ))}
         </Tabs>
       </Hidden>
       <Hidden mdUp>
