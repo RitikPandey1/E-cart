@@ -1,9 +1,10 @@
 import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link,useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import axios from "axios";
+import MainGridLayout from "./MainGridLayout";
 
 const useStyle = makeStyles((theme) => ({
   form: {
@@ -16,15 +17,12 @@ const useStyle = makeStyles((theme) => ({
   formElement: { margin: theme.spacing(2, 0, 2, 0) },
 }));
 
-const SignInPage = () => {
+const SignInPage = ({history}) => {
   const classes = useStyle();
-  const history = useHistory();
+  
   return (
-    <>
-      <Grid container>
-        <Grid item xs={1} sm={4} />
-        <Grid item xs={10} sm={4}>
-          <Formik
+    <MainGridLayout>
+       <Formik
             initialValues={{
               name: "",
               email: "",
@@ -136,10 +134,7 @@ const SignInPage = () => {
               </Form>
             )}
           </Formik>
-        </Grid>
-        <Grid item xs={1} sm={4} />
-      </Grid>
-    </>
+    </MainGridLayout>
   );
 };
 
