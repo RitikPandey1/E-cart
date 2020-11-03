@@ -10,7 +10,7 @@ import LoginPage from "./components/LoginPage";
 import Products from "./components/Products";
 import SignInPage from "./components/SignInPage";
 import TopAndSideBar from "./components/TopAndSideBar";
-
+import PrdouctPage from "./components/ProductPage";
 import "./index.css";
 import MainGridLayout from "./components/MainGridLayout";
 const Home = () => (
@@ -34,7 +34,8 @@ const App = () => {
             <Route exact path="/" component={Home} />
             <Route  path="/products/:category" component={Products} />
             <Route  path="/login" component={LoginPage} />
-            <Route  path="/signin" component={SignInPage} />
+            <Route path="/signin" component={SignInPage} />
+            <Route path="/product/:id" component={PrdouctPage}/>
             <Route path="*" component={NotFound} />
           </Switch>
          

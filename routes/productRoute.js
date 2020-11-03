@@ -5,6 +5,7 @@ const {
   addProductDetails,
   addProductImg,
   getProductImg,
+  product,
 } = require("../controller/Product");
 const { protectFirewall } = require("../controller/UserAuth");
 const {
@@ -25,6 +26,7 @@ const router = express.Router();
 router.get("/category/:category", getProducts);
 router.get("/product_image/:id/:image", getProductImg);
 router.get("/product/:id/reviews", getReviews);
+router.get("/product/:id",product);
 
 router.use(protectFirewall);
 router.post("/add/Product", uploadData, addProductDetails, addProductImg);

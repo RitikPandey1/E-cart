@@ -32,6 +32,13 @@ exports.getProducts = catchError(async (req, res, next) => {
   });
 });
 
+exports.product = catchError(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  res.status(200).json({
+    status: "Success",
+    data: product,
+  });
+});
 // get specific image of any product
 exports.getProductImg = (req, res, next) => {
   const { id, image } = req.params;

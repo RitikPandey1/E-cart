@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
 }));
-const Products = () => {
+const Products = ({ history }) => {
   const classes = useStyles();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState();
@@ -67,7 +67,13 @@ const Products = () => {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button variant="contained" color="primary">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() =>
+                          history.replace(`/product/${product._id}`)
+                        }
+                      >
                         See more
                       </Button>
                     </CardActions>
