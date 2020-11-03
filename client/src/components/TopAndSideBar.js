@@ -98,7 +98,7 @@ const TopAndSideBar = () => {
       <Divider />
       <List component="nav">
         {navLinks.map(({ title, path, icon }) => (
-          <Link to={path} className={classes.linkText}>
+          <Link to={path} className={classes.linkText} key={title}>
             <ListItem button>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={title} />
