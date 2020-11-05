@@ -12,6 +12,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    padding: "10px",
+    height: "150px",
   },
   bottom: {
     display: "flex",
@@ -22,9 +24,11 @@ const useStyles = makeStyles((theme) => ({
     border: "0.5px solid #ecf0f1",
     boxShadow: "0px 8px 15px -4px rgba(0,0,0,0.39)",
     padding: "10px",
-    display: "flex",
-    justifyContent: "space-between",
-    flexDirection: "column",
+  },
+  flexBox1: {
+    alignItems:"center",
+    border: "1px solid #ecf0f1",
+    marginTop: "20px",
   },
   grid: {
     margin: "10px 0 10px 0",
@@ -57,52 +61,31 @@ const Products = ({ history }) => {
         ) : (
           <>
             <Typography variant="h4">{category}</Typography>
-            <Grid container spacing={3} className={classes.grid}>
-              {products.map((product, i) => (
-                <Grid
-                  container
-                  item
-                  xs={12}
-                  sm={6}
-                  key={i}
-                  direction="column"
-                >
-                  <div className={classes.card}>
-                    <Grid item className={classes.box}>
-                      <img
-                        src={`/api/v1/ecartproducts/product_image/${product._id}/${product.images[0]}`}
-                        style={{ maxWidth: "100%" }}
-                      />
-                    </Grid>
-                    <Grid item>
-                      <Toolbar />
-                      <Typography variant="subtitle1">
-                        {" "}
-                        {product.name}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="h6">
-                        {" "}
-                        &#8377; {product.price.toLocaleString()}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        onClick={() =>
-                          history.push(`/product/${product._id}`)
-                        }
-                      >
-                        See more
-                      </Button>
-                    </Grid>
-                  </div>
+            {products.map((product, i) => (
+              <Grid container key={i} className={classes.flexBox1}>
+                <Grid item xs={12} sm={5} className={classes.box}>
+                  <img
+                    src={`/api/v1/ecartproducts/product_image/${product._id}/${product.images[0]}`}
+                    style={{ maxWidth: "100%", height: "100%" }}
+                  />
                 </Grid>
-              ))}
-            </Grid>
+                <Grid item xs={12} sm={7}>
+                  <Typography variant="subtitle1"> {product.name}</Typography>
+                  <Typography variant="h6">
+                    {" "}
+                    &#8377; {product.price.toLocaleString()}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => history.push(`/product/${product._id}`)}
+                  >
+                    See more
+                  </Button>
+                </Grid>
+              </Grid>
+            ))}
           </>
         )}
       </div>
