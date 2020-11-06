@@ -18,6 +18,7 @@ import HeadsetIcon from "@material-ui/icons/Headset";
 import SurroundSoundIcon from "@material-ui/icons/SurroundSound";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import ListAltIcon from "@material-ui/icons/ListAlt";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Header from "./Header";
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
@@ -86,6 +87,11 @@ const TopAndSideBar = () => {
       path: "/order",
       icon: <ListAltIcon />,
     },
+    {
+      title: "your account",
+      path: "/account",
+      icon:<AccountCircleIcon/>
+    }
   ];
   const sideDrawerList = (anchor) => (
     <div
