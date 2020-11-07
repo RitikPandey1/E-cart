@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     padding: "10px",
-    height: "110px",
+    height: "130px",
   },
   bottom: {
     display: "flex",

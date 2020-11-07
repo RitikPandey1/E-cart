@@ -1,7 +1,7 @@
 import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import { Link ,useHistory} from "react-router-dom";
 import { Formik, Form } from "formik";
 import MainGridLayout from "./MainGridLayout";
 import axios from "axios";
@@ -17,15 +17,15 @@ const useStyle = makeStyles((theme) => ({
   formElement: { margin: theme.spacing(2, 0, 2, 0) },
 }));
 
-const LoginPage = ({ history, location }) => {
+const LoginPage = ({  location }) => {
   const classes = useStyle();
+  const history = useHistory();
   return (
     <MainGridLayout>
       <Formik
         initialValues={{ email: "", password: "" }}
         validate={(values) => {
           const errors = {};
-          console.log(values);
           if (!values.email) {
             errors.email = "Required";
           } else if (
@@ -55,10 +55,13 @@ const LoginPage = ({ history, location }) => {
               if (response.data.status === "Success") {
                 setSubmitting(false);
                 const { from } = location.state || { from: { pathname: "/" } };
+                console.log(from);
                 Cookies.set("islogged", true);
-                history.replace(from);
+                history.replace(from.pathname);
               }
-            } catch(err){console.log(err.message)};
+            } catch (err) {
+              console.log(err.message);
+            }
             //console.log(response);
             setSubmitting(false);
           };

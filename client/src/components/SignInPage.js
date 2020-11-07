@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import axios from "axios";
 import MainGridLayout from "./MainGridLayout";
+import Cookies from "js-cookie";
 
 const useStyle = makeStyles((theme) => ({
   form: {
@@ -17,7 +18,7 @@ const useStyle = makeStyles((theme) => ({
   formElement: { margin: theme.spacing(2, 0, 2, 0) },
 }));
 
-const SignInPage = ({history}) => {
+const SignInPage = ({history,location}) => {
   const classes = useStyle();
   
   return (
@@ -59,7 +60,10 @@ const SignInPage = ({history}) => {
                 if (data.status === "Success") {
                   console.log(data);
                   setSubmitting(false);
-                  history.push("/");
+                  const {from} = location.state || {from :{pathname:"/"}}
+                  Cookies.set("islogged", true);
+                console.log(from);
+                  history.replace(from.pathname);
                 }
               }
               signIn();
