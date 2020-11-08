@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import { useParams, Link } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Star";
 import {
-  Button,
-  Toolbar,
   Typography,
   ButtonBase,
   Chip,
@@ -13,7 +11,7 @@ import {
 import Spinner from "./spinner/Spinner";
 import axios from "axios";
 import MainGridLayout from "./MainGridLayout";
-import Cookies from "js-cookie";
+
 const useStyles = makeStyles((theme) => ({
   box: {
     display: "flex",
@@ -80,6 +78,7 @@ const Products = ({ history }) => {
                 <Grid item xs={12} sm={4} className={classes.box}>
                   <img
                     src={`/api/v1/ecartproducts/product_image/${product._id}/${product.images[0]}`}
+                    alt="product"
                     style={{ maxWidth: "100%", height: "100%" }}
                   />
                 </Grid>

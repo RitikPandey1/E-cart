@@ -1,11 +1,11 @@
-import { Button, Grid, TextField, Typography } from "@material-ui/core";
+import { Button,  TextField, Typography } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import axios from "axios";
 import MainGridLayout from "./MainGridLayout";
-import Cookies from "js-cookie";
+
 
 const useStyle = makeStyles((theme) => ({
   form: {
@@ -61,9 +61,7 @@ const SignInPage = ({history,location}) => {
                   console.log(data);
                   setSubmitting(false);
                   const {from} = location.state || {from :{pathname:"/"}}
-                  Cookies.set("islogged", true);
-                console.log(from);
-                  history.replace(from.pathname);
+                  history.replace(from);
                 }
               }
               signIn();

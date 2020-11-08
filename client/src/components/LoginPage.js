@@ -1,11 +1,11 @@
-import { Button, Grid, TextField, Typography } from "@material-ui/core";
+import { Button,  TextField, Typography } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link ,useHistory} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import MainGridLayout from "./MainGridLayout";
 import axios from "axios";
-import Cookies from "js-cookie";
+
 const useStyle = makeStyles((theme) => ({
   form: {
     display: "flex",
@@ -17,10 +17,9 @@ const useStyle = makeStyles((theme) => ({
   formElement: { margin: theme.spacing(2, 0, 2, 0) },
 }));
 
-const LoginPage = ({  location }) => {
+const LoginPage = ({  history ,location }) => {
   const classes = useStyle();
-  const history = useHistory();
-  return (
+   return (
     <MainGridLayout>
       <Formik
         initialValues={{ email: "", password: "" }}
@@ -55,9 +54,7 @@ const LoginPage = ({  location }) => {
               if (response.data.status === "Success") {
                 setSubmitting(false);
                 const { from } = location.state || { from: { pathname: "/" } };
-                console.log(from);
-                Cookies.set("islogged", true);
-                history.replace(from.pathname);
+                history.replace(from);
               }
             } catch (err) {
               console.log(err.message);

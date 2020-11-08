@@ -13,10 +13,12 @@ const sendToken = (res, data) => {
     expires: new Date(
       Date.now() + process.env.cookieexpat * 24 * 60 * 60 * 1000
     ),
-    httpOnly: true,
   };
 
-  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+  if (process.env.NODE_ENV === "production") {
+    cookieOptions.secure = true;
+    cookieOptions.httpOnly = true;
+  }
 
   res.cookie("jwt", token, cookieOptions);
   res.status(201).json({ status: "Success" });

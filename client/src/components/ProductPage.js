@@ -71,7 +71,8 @@ const ProductPage = () => {
           </Grid>
           <Grid item className={classes.imageBox}>
             <img
-              src={`/api/v1/ecartproducts/product_image/${product._id}/${product.images[1]}`}
+                src={`/api/v1/ecartproducts/product_image/${product._id}/${product.images[1]}`}
+                alt="product"
               style={{ maxWidth: "100%" }}
             />
           </Grid>

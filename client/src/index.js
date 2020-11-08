@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import {
   BrowserRouter as Router,
@@ -28,11 +28,15 @@ const NotFound = () => (
   </MainGridLayout>
 );
 
-const PrivateRoute = ({ children, islog, ...rest }) => (
+const isAuthenticate = () => Cookies.get("jwt") ? true : false;
+
+
+
+const PrivateRoute = ({ children, ...rest }) => (
   <Route
     {...rest}
     render={({ location }) =>
-      islog ? (
+      isAuthenticate() ? (
         children
       ) : (
         <Redirect to={{ pathname: "/login", state: { from: location } }} />
@@ -42,10 +46,7 @@ const PrivateRoute = ({ children, islog, ...rest }) => (
 );
 
 const App = () => {
-  const [islog, setLog] = useState(false);
-  useEffect(() => {
-    Cookies.get("islogged") ? setLog(true) : setLog(false);
-  }, [setLog]);
+  
   return (
     <div>
       <Router>
@@ -55,10 +56,10 @@ const App = () => {
             <Route exact path="/" component={Home} />
             <Route path="/login" component={LoginPage} />
             <Route path="/signin" component={SignInPage} />
-            <PrivateRoute path="/cart" islog={islog}>
+            <PrivateRoute path="/cart" >
               <Cart />
             </PrivateRoute>
-            <PrivateRoute path="/order" islog={islog}>
+            <PrivateRoute path="/order" >
               <Order />
             </PrivateRoute>
             <Route path="/products/:category" component={Products} />

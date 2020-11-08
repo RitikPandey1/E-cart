@@ -86,7 +86,7 @@ exports.addProductImg = (req, res, next) => {
 
 // adding products detail in db
 exports.addProductDetails = catchError(async (req, res, next) => {
-  const { name, price, images, description } = req.body;
+  const { name, price, images, description,category } = req.body;
   const fileNames = req.files.map((el) => el.filename);
 
   const newProduct = await Product.create({
