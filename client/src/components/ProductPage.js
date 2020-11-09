@@ -49,12 +49,12 @@ const ProductPage = () => {
   const { id } = useParams();
   useEffect(() => {
     const getData = async () => {
-      const response1 = await axios.get(`/api/v1/ecartproducts/product/${id}`);
-      const response2 = await axios.get(
+      const getProducts = await axios.get(`/api/v1/ecartproducts/product/${id}`);
+      const getReviews = await axios.get(
         `/api/v1/ecartproducts/product/${id}/reviews`
       );
-      setProduct(response1.data.data);
-      setReviews(response2.data.data);
+      setProduct(getProducts.data.data);
+      setReviews(getReviews.data.data);
       setLoading(false);
     };
     getData();

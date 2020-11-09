@@ -2,7 +2,7 @@ import { Button,  TextField, Typography } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { Formik, Form } from "formik";
+import { useFormik} from "formik";
 import axios from "axios";
 import MainGridLayout from "./MainGridLayout";
 
@@ -20,17 +20,7 @@ const useStyle = makeStyles((theme) => ({
 
 const SignInPage = ({history,location}) => {
   const classes = useStyle();
-  
-  return (
-    <MainGridLayout>
-       <Formik
-            initialValues={{
-              name: "",
-              email: "",
-              password: "",
-              confirmPassword: "",
-            }}
-            validate={(values) => {
+  const validate= values => {
               const errors = {};
               if (!values.email) {
                 errors.email = "Required";
@@ -53,42 +43,50 @@ const SignInPage = ({history,location}) => {
                 errors.confirmPassword = "Password not matched";
               }
               return errors;
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              const signIn = async () => {
-                const {data} = await axios.post("/api/v1/ecartUsers/signup",{...values});
+  }
+  const formik = useFormik({
+   initialValues:{
+              name: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+    },
+    validate,
+     onSubmit: async(values, { setSubmitting }) => {
+              const {data} = await axios.post("/api/v1/ecartUsers/signup",{...values});
                 if (data.status === "Success") {
                   console.log(data);
                   setSubmitting(false);
                   const {from} = location.state || {from :{pathname:"/"}}
                   history.replace(from);
                 }
-              }
-              signIn();
-            }}
-          >
-            {({ isSubmitting, handleChange, errors, touched }) => (
-              <Form className={classes.form}>
+              
+            }
+
+ }) 
+  return (
+    <MainGridLayout>
+              <form className={classes.form} onSubmit={formik.handleSubmit}>
                 <Typography variant="h5">Create your account</Typography>
                 <TextField
                   fullWidth
                   className={classes.formElement}
                   label="Name"
                   id="name"
-                  onChange={handleChange}
+                  onChange={formik.handleChange}
                   variant="outlined"
-                  helperText={errors.name && touched.name && errors.name}
-                  error={errors.name && touched.name && true}
+                  helperText={formik.errors.name && formik.touched.name && formik.errors.name}
+                  error={formik.errors.name && formik.touched.name && true}
                 />
                 <TextField
                   fullWidth
                   className={classes.formElement}
                   label="Email"
                   id="email"
-                  onChange={handleChange}
+                  onChange={formik.handleChange}
                   variant="outlined"
-                  helperText={errors.email && touched.email && errors.email}
-                  error={errors.email && touched.email && true}
+                  helperText={formik.errors.email && formik.touched.email && formik.errors.email}
+                  error={formik.errors.email && formik.touched.email && true}
                 />
                 <TextField
                   fullWidth
@@ -96,28 +94,28 @@ const SignInPage = ({history,location}) => {
                   label="Password"
                   id="password"
                   type="password"
-                  onChange={handleChange}
+                  onChange={formik.handleChange}
                   variant="outlined"
                   helperText={
-                    errors.password && touched.password && errors.password
+                    formik.errors.password && formik.touched.password && formik.errors.password
                   }
-                  error={errors.password && touched.password && true}
+                  error={formik.errors.password && formik.touched.password && true}
                 />
                 <TextField
                   fullWidth
                   className={classes.formElement}
                   label="Confirm password"
                   id="confirmPassword"
-                  onChange={handleChange}
+                  onChange={formik.handleChange}
                   type="password"
                   variant="outlined"
                   helperText={
-                    errors.confirmPassword &&
-                    touched.confirmPassword &&
-                    errors.confirmPassword
+                    formik.errors.confirmPassword &&
+                    formik.touched.confirmPassword &&
+                    formik.errors.confirmPassword
                   }
                   error={
-                    errors.confirmPassword && touched.confirmPassword && true
+                    formik.errors.confirmPassword && formik.touched.confirmPassword && true
                   }
                 />
                 <Button
@@ -126,16 +124,14 @@ const SignInPage = ({history,location}) => {
                   className={classes.formElement}
                   color="primary"
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={formik.isSubmitting}
                 >
                   sign in
                 </Button>
                 <Typography variant="subtitle1">
                   Already have an account ? <Link to="/login">login</Link>
-                </Typography>
-              </Form>
-            )}
-          </Formik>
+                </Typography>          
+        </form>
     </MainGridLayout>
   );
 };

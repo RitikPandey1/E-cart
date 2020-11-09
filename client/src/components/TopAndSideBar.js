@@ -43,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
 const TopAndSideBar = () => {
   const classes = useStyles();
   const [state, setState] = useState({ left: false });
-
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -105,7 +104,7 @@ const TopAndSideBar = () => {
       <List component="nav">
         {navLinks.map(({ title, path, icon }) => (
           <Link to={path} className={classes.linkText} key={title}>
-            <ListItem button>
+            <ListItem button >
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={title} />
             </ListItem>

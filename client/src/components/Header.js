@@ -2,7 +2,7 @@ import { AppBar, Toolbar, IconButton } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-
+import { useHistory } from "react-router-dom"; 
 
 const useStyles = makeStyles(theme=>({
   header: {
@@ -20,14 +20,21 @@ const useStyles = makeStyles(theme=>({
 
 const Header = ({children}) => {
   const classes = useStyles();  
+  const history = useHistory();
   return (
     <>
-      <AppBar  className={classes.header}>
+      <AppBar className={classes.header}>
         <Toolbar>
           {children}
-          <IconButton className={classes.icon} aria-label="home">
-              <ShoppingCartIcon /> E CART
-            </IconButton>     
+          <IconButton
+            className={classes.icon}
+            aria-label="home"
+            onClick={() => {
+              history.push("/");
+            }}
+          >
+            <ShoppingCartIcon /> E CART
+          </IconButton>
         </Toolbar>
       </AppBar>
     </>
