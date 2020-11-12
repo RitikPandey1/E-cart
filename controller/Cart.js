@@ -8,6 +8,8 @@ exports.checkProduct = catchError(async (req, res, next) => {
   const product = await Product.findById(pid);
   if (!product)
     return next(new AppError("Fail", "Product not found  on ecart", 404));
+  product.inCart = true;
+  await product.save();
   next();
 });
 

@@ -1,5 +1,5 @@
 import React from "react";
-import MainGridLayout from "./MainGridLayout";
+import MainGridLayout from "../MainGridLayout";
 const ErrorPage = () => {
   return (
     <MainGridLayout>

@@ -22,6 +22,9 @@ const productSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  inCart: {
+    type: Boolean
+  }
 });
 
 const Product = new mongoose.model("Product", productSchema);

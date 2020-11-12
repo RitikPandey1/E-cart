@@ -1,19 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import history from "./History";
 import LoginPage from "./components/LoginPage";
 import Products from "./components/Products";
 import SignInPage from "./components/SignInPage";
-import TopAndSideBar from "./components/TopAndSideBar";
-import PrdouctPage from "./components/ProductPage";
+import TopAndSideBar from "./components/TopAndSideBar/TopAndSideBar";
+import PrdouctPage from "./components/ProductPage/ProductPage";
 import Cart from "./components/Cart";
 import Order from "./components/Order";
-import ErrorPage from "./components/ErrorPage";
+import ErrorPage from "./components/Error/ErrorPage";
 import MainGridLayout from "./components/MainGridLayout";
 import Cookies from "js-cookie";
 const Home = () => (
@@ -28,9 +24,7 @@ const NotFound = () => (
   </MainGridLayout>
 );
 
-const isAuthenticate = () => Cookies.get("jwt") ? true : false;
-
-
+const isAuthenticate = () => (Cookies.get("jwt") ? true : false);
 
 const PrivateRoute = ({ children, ...rest }) => (
   <Route
@@ -39,27 +33,26 @@ const PrivateRoute = ({ children, ...rest }) => (
       isAuthenticate() ? (
         children
       ) : (
-        <Redirect to={{ pathname: "/login", state: { from: location } }} />
+        <Redirect to={ { pathname: "/login", state: { from: location } } } />
       )
     }
   />
 );
 
 const App = () => {
-  
   return (
     <div>
-      <Router>
+      <Router history={history}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <TopAndSideBar />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/login" component={LoginPage} />
             <Route path="/signin" component={SignInPage} />
-            <PrivateRoute path="/cart" >
+            <PrivateRoute path="/cart">
               <Cart />
             </PrivateRoute>
-            <PrivateRoute path="/order" >
+            <PrivateRoute path="/order">
               <Order />
             </PrivateRoute>
             <Route path="/products/:category" component={Products} />
