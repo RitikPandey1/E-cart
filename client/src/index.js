@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import history from "./History";
+
 import LoginPage from "./components/LoginPage";
 import Products from "./components/Products";
 import SignInPage from "./components/SignInPage";
@@ -42,7 +42,7 @@ const PrivateRoute = ({ children, ...rest }) => (
 const App = () => {
   return (
     <div>
-      <Router history={history}>
+      <Router>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <TopAndSideBar />
           <Switch>

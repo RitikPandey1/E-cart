@@ -55,9 +55,9 @@ const SignInPage = ({ history, location }) => {
       });
       if (data.status === "Success") {
         console.log(data);
-        setSubmitting(false);
         const { from } = location.state || { from: { pathname: "/" } };
-        history.replace(from);
+        console.log(from);
+        history.replace(from.pathname);
       }
     },
   });

@@ -37,7 +37,7 @@ const useStyles = makeStyles({
   },
 });
 
-const ProductPage = ({history,location}) => {
+const ProductPage = ({ history, location }) => {
   const classes = useStyles();
   const [product, setProduct] = useState();
   const [reviews, setReviews] = useState([]);
@@ -47,24 +47,31 @@ const ProductPage = ({history,location}) => {
   const { id } = useParams();
 
   useEffect(() => {
+    console.log("1");
     const products = async () => {
       const getProducts = await axios.get(
         `/api/v1/ecartproducts/product/${id}`
       );
       setProduct(getProducts.data.data);
     };
-    products().catch((err) => history.push("/error"));
+    products().catch((err) => {
+      history.push("/error");
+    });
   }, [id]);
 
   useEffect(() => {
+    console.log("2");
     const reviews = async () => {
+      setLoading(true);
       const getReviews = await axios.get(
         `/api/v1/ecartproducts/product/${id}/reviews`
       );
       setReviews(getReviews.data.data);
       setLoading(false);
     };
-    reviews().catch((err) => history.push("/error"));
+    reviews().catch((err) => {
+      history.push("/error");
+    });
   }, [id]);
 
   const addToCart = async (token) => {
@@ -98,16 +105,16 @@ const ProductPage = ({history,location}) => {
             <Grid item xs={12} sm={6} className={classes.buttonArea}>
               <CartButton
                 addToCart={addToCart}
-                inCart={product.inCart || inCart}
-                  classes={classes}
-                  history={history}
-                  location ={location}
+                inCart={(product && product.inCart) || inCart}
+                classes={classes}
+                history={history}
+                location={location}
               />
             </Grid>
           </Grid>
           <Grid item>
             <Toolbar />
-            <ProductRating rating={product.averageRating} />
+            <ProductRating rating={product && product.averageRating} />
           </Grid>
           <Grid item>
             <Toolbar />

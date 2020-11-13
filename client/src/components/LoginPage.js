@@ -37,11 +37,9 @@ const LoginPage = ({ history, location }) => {
   const classes = useStyle();
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const formik = useFormik({
-    initialValues: { email: "", password: "" },
-    validate,
-    onSubmit: async (values, { setSubmitting }) => {
-      const response = await axios({
+
+  const submitData = async (values) => {
+    const response = await axios({
         method: "POST",
         url: "/api/v1/ecartUsers/login",
         data: {
@@ -60,6 +58,13 @@ const LoginPage = ({ history, location }) => {
         setError(true);
         setErrorMsg(response.data.message);
       }
+  }
+
+  const formik = useFormik({
+    initialValues: { email: "", password: "" },
+    validate,
+    onSubmit: (values, { setSubmitting }) => {
+      submitData(values);
       setSubmitting(false);
     },
   });
@@ -108,7 +113,7 @@ const LoginPage = ({ history, location }) => {
           login
         </Button>
         <Typography variant="subtitle1">
-          Create new account <Link to="/signin">Sign in</Link>
+          Create new account <Link to={ {pathname: "/signin", state:{from: location.state}} }>Sign in</Link>
         </Typography>
       </form>
     </MainGridLayout>
