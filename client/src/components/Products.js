@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import { useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Star";
-import {
-  Typography,
-  ButtonBase,
-  Chip,
-} from "@material-ui/core";
+import { Typography, ButtonBase, Chip } from "@material-ui/core";
 import Spinner from "./spinner/Spinner";
 import axios from "axios";
 import MainGridLayout from "./MainGridLayout";
+import { useGetHook } from "./CustomHook";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -48,22 +45,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Products = ({ history }) => {
   const classes = useStyles();
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState();
+  //const [products, setProducts] = useState([]);
+  //const [loading, setLoading] = useState();
   const { category } = useParams();
   //console.log(category);
-  useEffect(() => {
-    const getdata = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        `/api/v1/ecartproducts/category/${category}`
-      );
-      setLoading(false);
-      // console.log(response.data.data);
-      setProducts(response.data.data);
-    };
-    getdata();
-  }, [category]);
+  const url = `/api/v1/ecartproducts/category/${category}`;
+  const [result, loading, error] = useGetHook(url);
+  if (error) history.push("/error");
+  // useEffect(() => {
+  //   const getdata = async () => {
+  //     setLoading(true);
+  //     const response = await axios.get(
+  //       `/api/v1/ecartproducts/category/${category}`
+  //     );
+  //     setLoading(false);
+  //     // console.log(response.data.data);
+  //     setProducts(response.data.data);
+  //   };
+  //   getdata();
+  // }, [category]);
 
   return (
     <MainGridLayout>
@@ -73,36 +73,40 @@ const Products = ({ history }) => {
         ) : (
           <>
             <Typography variant="h4">{category}</Typography>
-            {products.map((product, i) => (
-              <Grid container key={i} className={classes.flexBox1}>
-                <Grid item xs={12} sm={4} className={classes.box}>
-                  <img
-                    src={`/api/v1/ecartproducts/product_image/${product._id}/${product.images[0]}`}
-                    alt="product"
-                    style={{ maxWidth: "100%", height: "100%" }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={8} className={classes.box2}>
-                  <ButtonBase
-                    onClick={() => history.push(`/product/${product._id}`)}
-                  >
-                    <Typography variant="subtitle1"> {product.name}</Typography>
-                  </ButtonBase>
-                  {product.averageRating && (
-                    <Chip
-                      size="small"
-                      style={{ backgroundColor: "#27ae60", color: "#fff" }}
-                      label={product.averageRating}
-                      icon={<StarIcon style={{ color: "#fff" }} />}
+            {!error &&
+              result.data.map((product, i) => (
+                <Grid container key={i} className={classes.flexBox1}>
+                  <Grid item xs={12} sm={4} className={classes.box}>
+                    <img
+                      src={`/api/v1/ecartproducts/product_image/${product._id}/${product.images[0]}`}
+                      alt="product"
+                      style={{ maxWidth: "100%", height: "100%" }}
                     />
-                  )}
+                  </Grid>
+                  <Grid item xs={12} sm={8} className={classes.box2}>
+                    <ButtonBase
+                      onClick={() => history.push(`/product/${product._id}`)}
+                    >
+                      <Typography variant="subtitle1">
+                        {" "}
+                        {product.name}
+                      </Typography>
+                    </ButtonBase>
+                    {product.averageRating && (
+                      <Chip
+                        size="small"
+                        style={{ backgroundColor: "#27ae60", color: "#fff" }}
+                        label={product.averageRating}
+                        icon={<StarIcon style={{ color: "#fff" }} />}
+                      />
+                    )}
 
-                  <Typography variant="h6">
-                    &#8377;{product.price.toLocaleString()}
-                  </Typography>
+                    <Typography variant="h6">
+                      &#8377;{product.price.toLocaleString()}
+                    </Typography>
+                  </Grid>
                 </Grid>
-              </Grid>
-            ))}
+              ))}
           </>
         )}
       </div>
