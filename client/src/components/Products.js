@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import StarIcon from "@material-ui/icons/Star";
 import { Typography, ButtonBase, Chip } from "@material-ui/core";
 import Spinner from "./spinner/Spinner";
-import axios from "axios";
 import MainGridLayout from "./MainGridLayout";
-import { useGetHook } from "./CustomHook";
+import { useGetHook } from "../CustomHook";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -45,25 +44,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Products = ({ history }) => {
   const classes = useStyles();
-  //const [products, setProducts] = useState([]);
-  //const [loading, setLoading] = useState();
   const { category } = useParams();
-  //console.log(category);
   const url = `/api/v1/ecartproducts/category/${category}`;
   const [result, loading, error] = useGetHook(url);
+  
   if (error) history.push("/error");
-  // useEffect(() => {
-  //   const getdata = async () => {
-  //     setLoading(true);
-  //     const response = await axios.get(
-  //       `/api/v1/ecartproducts/category/${category}`
-  //     );
-  //     setLoading(false);
-  //     // console.log(response.data.data);
-  //     setProducts(response.data.data);
-  //   };
-  //   getdata();
-  // }, [category]);
 
   return (
     <MainGridLayout>
@@ -73,8 +58,7 @@ const Products = ({ history }) => {
         ) : (
           <>
             <Typography variant="h4">{category}</Typography>
-            {!error &&
-              result.data.map((product, i) => (
+            {result.data.map((product, i) => (
                 <Grid container key={i} className={classes.flexBox1}>
                   <Grid item xs={12} sm={4} className={classes.box}>
                     <img

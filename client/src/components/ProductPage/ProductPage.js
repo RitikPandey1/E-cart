@@ -1,5 +1,5 @@
 import { Button, Grid, Toolbar, Typography, Paper } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MainGridLayout from "../MainGridLayout";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
@@ -9,6 +9,7 @@ import ProductInfo from "./ProductInfo";
 import ProductRating from "./ProductRating";
 import ProductReviews from "./ProductReviews";
 import CartButton from "./CartButton";
+import { useGetHook } from "../../CustomHook";
 
 const useStyles = makeStyles({
   button: {
@@ -39,58 +40,35 @@ const useStyles = makeStyles({
 
 const ProductPage = ({ history, location }) => {
   const classes = useStyles();
-  const [product, setProduct] = useState();
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [inCart, setCart] = useState(false);
-
+ 
   const { id } = useParams();
+ const productUrl = `/api/v1/ecartproducts/product/${id}`;
+ const reviewsUrl = `/api/v1/ecartproducts/product/${id}/reviews`;
+  
+  const [product, loading1, error1] = useGetHook(productUrl);
+  const [reviews, loading2, error2] = useGetHook(reviewsUrl);
+  
+  if (error1 || error2) history.push("/error");
 
-  useEffect(() => {
-    console.log("1");
-    const products = async () => {
-      const getProducts = await axios.get(
-        `/api/v1/ecartproducts/product/${id}`
-      );
-      setProduct(getProducts.data.data);
-    };
-    products().catch((err) => {
-      history.push("/error");
-    });
-  }, [id]);
 
-  useEffect(() => {
-    console.log("2");
-    const reviews = async () => {
-      setLoading(true);
-      const getReviews = await axios.get(
-        `/api/v1/ecartproducts/product/${id}/reviews`
-      );
-      setReviews(getReviews.data.data);
-      setLoading(false);
-    };
-    reviews().catch((err) => {
-      history.push("/error");
-    });
-  }, [id]);
-
-  const addToCart = async (token) => {
-    const response = await axios.get(
-      `/api/v1/ecartproducts/product/${id}/addtocart`,
-      { headers: { Authorization: "Bearer ".concat(token) } }
-    );
-    if (response.data.status === "Success") {
-      setCart(true);
-    }
-  };
+   const addToCart = async (token) => {
+     const response = await axios.get(
+       `/api/v1/ecartproducts/product/${id}/addtocart`,
+       { headers: { Authorization: "Bearer ".concat(token) } }
+     );
+     if (response.data.status === "Success") {
+       setCart(true);
+     }
+   };
 
   return (
     <MainGridLayout>
-      {loading ? (
+      {(loading1 || loading2)? (
         <Spinner />
       ) : (
         <Grid container direction="column">
-          <ProductInfo product={product} classes={classes} />
+          <ProductInfo product={product.data} classes={classes} />
           <Grid container item>
             <Grid item xs={12} sm={6} className={classes.buttonArea}>
               <Button
@@ -105,7 +83,7 @@ const ProductPage = ({ history, location }) => {
             <Grid item xs={12} sm={6} className={classes.buttonArea}>
               <CartButton
                 addToCart={addToCart}
-                inCart={(product && product.inCart) || inCart}
+                inCart={(product.inCart) || inCart}
                 classes={classes}
                 history={history}
                 location={location}
@@ -114,13 +92,13 @@ const ProductPage = ({ history, location }) => {
           </Grid>
           <Grid item>
             <Toolbar />
-            <ProductRating rating={product && product.averageRating} />
+            <ProductRating rating={ product.data.averageRating} />
           </Grid>
           <Grid item>
             <Toolbar />
             <Paper className={classes.paper}>
               <Typography variant="h4">Reviews</Typography>
-              <ProductReviews productReviews={reviews} classes={classes} />
+              <ProductReviews productReviews={reviews.data} classes={classes} />
             </Paper>
           </Grid>
         </Grid>
