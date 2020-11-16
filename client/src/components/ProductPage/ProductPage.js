@@ -10,6 +10,12 @@ import ProductRating from "./ProductRating";
 import ProductReviews from "./ProductReviews";
 import CartButton from "./CartButton";
 import { useGetHook } from "../../CustomHook";
+import Cookies from "js-cookie";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  "pk_test_51HoAvtGaNOaCdqY8zStX6zrmS85OqUYM8kbJEQypYe9mO57w4RKuOkIUFPeCQb6hXNsBCyjVxInCU7bEEj0Fqlnu00D3595kX7"
+);
 
 const useStyles = makeStyles({
   button: {
@@ -41,30 +47,48 @@ const useStyles = makeStyles({
 const ProductPage = ({ history, location }) => {
   const classes = useStyles();
   const [inCart, setCart] = useState(false);
- 
+
   const { id } = useParams();
- const productUrl = `/api/v1/ecartproducts/product/${id}`;
- const reviewsUrl = `/api/v1/ecartproducts/product/${id}/reviews`;
-  
+  const productUrl = `/api/v1/ecartproducts/product/${id}`;
+  const reviewsUrl = `/api/v1/ecartproducts/product/${id}/reviews`;
+
   const [product, loading1, error1] = useGetHook(productUrl);
   const [reviews, loading2, error2] = useGetHook(reviewsUrl);
-  
+
   if (error1 || error2) history.push("/error");
 
+  const checkoutPage = async (event) => {
+    const stripe = await stripePromise;
+    const token = Cookies.get("jwt");
+    const response = await axios.post(
+      "/api/v1/ecartproducts/create-checkout-session",
+      {},
+      { headers: { Authorization: "Bearer ".concat(token) } }
+    );
+    const session = response.data;
 
-   const addToCart = async (token) => {
-     const response = await axios.get(
-       `/api/v1/ecartproducts/product/${id}/addtocart`,
-       { headers: { Authorization: "Bearer ".concat(token) } }
-     );
-     if (response.data.status === "Success") {
-       setCart(true);
-     }
-   };
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (result.error) {
+      history.push("/error");
+    }
+  };
+
+  const addToCart = async (token) => {
+    const response = await axios.get(
+      `/api/v1/ecartproducts/product/${id}/addtocart`,
+      { headers: { Authorization: "Bearer ".concat(token) } }
+    );
+    if (response.data.status === "Success") {
+      setCart(true);
+    }
+  };
 
   return (
     <MainGridLayout>
-      {(loading1 || loading2)? (
+      {loading1 || loading2 ? (
         <Spinner />
       ) : (
         <Grid container direction="column">
@@ -76,6 +100,7 @@ const ProductPage = ({ history, location }) => {
                 color="primary"
                 size="large"
                 className={classes.button}
+                onClick={checkoutPage}
               >
                 Buy Now
               </Button>
@@ -83,7 +108,7 @@ const ProductPage = ({ history, location }) => {
             <Grid item xs={12} sm={6} className={classes.buttonArea}>
               <CartButton
                 addToCart={addToCart}
-                inCart={(product.inCart) || inCart}
+                inCart={product.inCart || inCart}
                 classes={classes}
                 history={history}
                 location={location}
@@ -92,7 +117,7 @@ const ProductPage = ({ history, location }) => {
           </Grid>
           <Grid item>
             <Toolbar />
-            <ProductRating rating={ product.data.averageRating} />
+            <ProductRating rating={product.data.averageRating} />
           </Grid>
           <Grid item>
             <Toolbar />

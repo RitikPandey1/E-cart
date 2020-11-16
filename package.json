@@ -8,8 +8,8 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "client":"cd ./client &&  yarn start",
-    "dev": "concurrently \"yarn run start\" \"yarn run client\""
+    "client": "cd ./client &&  yarn start",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "dependencies": {
     "bcrypt": "^5.0.0",

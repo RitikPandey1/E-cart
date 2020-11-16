@@ -7,13 +7,13 @@ export const useGetHook = (url) => {
   const [error, setError] = useState();
 
   const getResponse = async () => {
-    setLoading(true);
     const { data } = await axios.get(url);
     setResult(data);
     setLoading(false);
   };
 
   useEffect(() => {
+    setLoading(true);
     getResponse().catch((err) => {
       setError(err);
       setLoading(false);

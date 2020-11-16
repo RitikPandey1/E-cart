@@ -14,6 +14,7 @@ const {
   removeFromCart,
   getCart,
 } = require("../controller/Cart");
+const { createCheckoutSession } = require("../controller/Order");
 
 const {
   addReview,
@@ -26,13 +27,15 @@ const router = express.Router();
 router.get("/category/:category", getProducts);
 router.get("/product_image/:id/:image", getProductImg);
 router.get("/product/:id/reviews", getReviews);
-router.get("/product/:id",product);
+router.get("/product/:id", product);
 
 router.use(protectFirewall);
 router.post("/add/Product", uploadData, addProductDetails, addProductImg);
 router.get("/product/:pid/addtocart", checkProduct, addToCart);
 router.delete("/cart/item/:id/remove", removeFromCart);
 router.get("/cart/list", getCart);
+router.post("/create-checkout-session", createCheckoutSession);
+
 
 //--product review routes
 router.post("/add/review", checkDuplicate, insertRating, addReview);
