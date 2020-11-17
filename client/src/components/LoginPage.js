@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import ErrorPanel from "./Error/ErrorPanel";
 import MainGridLayout from "./MainGridLayout";
+import LoadingButton from "./LoadingButton";
 
 const useStyle = makeStyles((theme) => ({
   form: {
@@ -38,34 +39,33 @@ const LoginPage = ({ history, location }) => {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const submitData = async (values) => {
+  const submitData = async (values,setSubmitting) => {
     const response = await axios({
-        method: "POST",
-        url: "/api/v1/ecartUsers/login",
-        data: {
-          ...values,
-        },
-        validateStatus: (status) => status<500,
-      });
-
-      console.log(response);
-
-      if (response.data.status === "Success") {
-        const { from } = location.state || { from: { pathname: "/" } };
-        history.replace(from);
-      }
-      if (response.status === 401) {
-        setError(true);
-        setErrorMsg(response.data.message);
-      }
-  }
+      method: "POST",
+      url: "/api/v1/ecartUsers/login",
+      data: {
+        ...values,
+      },
+      validateStatus: (status) => status < 500,
+    });
+    
+    setSubmitting(false);
+    
+    if (response.data.status === "Success") {
+      const { from } = location.state || { from: { pathname: "/" } };
+      history.replace(from);
+    }
+    if (response.status === 401) {
+      setError(true);
+      setErrorMsg(response.data.message);
+    }
+  };
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validate,
     onSubmit: (values, { setSubmitting }) => {
-      submitData(values);
-      setSubmitting(false);
+      submitData(values,setSubmitting);
     },
   });
 
@@ -102,18 +102,29 @@ const LoginPage = ({ history, location }) => {
           }
           error={formik.errors.password && formik.touched.password && true}
         />
-        <Button
-          fullWidth
-          variant="contained"
-          type="submit"
-          className={classes.formElement}
-          color="primary"
-          disabled={formik.isSubmitting}
-        >
-          login
-        </Button>
+        {formik.isSubmitting ? (
+          <LoadingButton
+            fullWidth
+            text="login"
+            className={classes.formElement}
+          />
+        ) : (
+          <Button
+            fullWidth
+            variant="contained"
+            type="submit"
+            className={classes.formElement}
+            color="primary"
+          >
+            login
+          </Button>
+        )}
+
         <Typography variant="subtitle1">
-          Create new account <Link to={ {pathname: "/signin", state:{from: location.state}} }>Sign in</Link>
+          Create new account{" "}
+          <Link to={{ pathname: "/signin", state: { from: location.state } }}>
+            Sign in
+          </Link>
         </Typography>
       </form>
     </MainGridLayout>

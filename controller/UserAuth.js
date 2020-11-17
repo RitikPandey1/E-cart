@@ -58,12 +58,11 @@ exports.protectFirewall = catchError(async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
-    console.log(req.headers.authorization);
+    
   } else if (req.cookies) {
     token = req.cookies.jwt ? req.cookies.jwt : "";
   }
-  console.log(req.headers);
-  console.log(req.body);
+  
   if (!token)
     return next(new AppError("Fail", "Please login to get access", 401));
 

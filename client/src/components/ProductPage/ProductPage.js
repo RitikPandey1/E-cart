@@ -12,6 +12,7 @@ import CartButton from "./CartButton";
 import { useGetHook } from "../../CustomHook";
 import Cookies from "js-cookie";
 import { loadStripe } from "@stripe/stripe-js";
+import LoadingButton from "../LoadingButton";
 
 const stripePromise = loadStripe(
   "pk_test_51HoAvtGaNOaCdqY8zStX6zrmS85OqUYM8kbJEQypYe9mO57w4RKuOkIUFPeCQb6hXNsBCyjVxInCU7bEEj0Fqlnu00D3595kX7"
@@ -47,7 +48,7 @@ const useStyles = makeStyles({
 const ProductPage = ({ history, location }) => {
   const classes = useStyles();
   const [inCart, setCart] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const productUrl = `/api/v1/ecartproducts/product/${id}`;
   const reviewsUrl = `/api/v1/ecartproducts/product/${id}/reviews`;
@@ -60,11 +61,13 @@ const ProductPage = ({ history, location }) => {
   const checkoutPage = async (event) => {
     const stripe = await stripePromise;
     const token = Cookies.get("jwt");
+    setLoading(true);
     const response = await axios.post(
       "/api/v1/ecartproducts/create-checkout-session",
       {},
       { headers: { Authorization: "Bearer ".concat(token) } }
     );
+    setLoading(false);
     const session = response.data;
 
     const result = await stripe.redirectToCheckout({
@@ -95,15 +98,19 @@ const ProductPage = ({ history, location }) => {
           <ProductInfo product={product.data} classes={classes} />
           <Grid container item>
             <Grid item xs={12} sm={6} className={classes.buttonArea}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                className={classes.button}
-                onClick={checkoutPage}
-              >
-                Buy Now
-              </Button>
+              {loading ? (
+                <LoadingButton text="Buy Now" className={classes.button} />
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  className={classes.button}
+                  onClick={checkoutPage}
+                >
+                  Buy Now
+                </Button>
+              )}
             </Grid>
             <Grid item xs={12} sm={6} className={classes.buttonArea}>
               <CartButton
