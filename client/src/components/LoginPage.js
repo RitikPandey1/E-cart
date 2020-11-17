@@ -39,7 +39,7 @@ const LoginPage = ({ history, location }) => {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const submitData = async (values,setSubmitting) => {
+  const submitData = async (values, setSubmitting) => {
     const response = await axios({
       method: "POST",
       url: "/api/v1/ecartUsers/login",
@@ -48,9 +48,9 @@ const LoginPage = ({ history, location }) => {
       },
       validateStatus: (status) => status < 500,
     });
-    
+
     setSubmitting(false);
-    
+
     if (response.data.status === "Success") {
       const { from } = location.state || { from: { pathname: "/" } };
       history.replace(from);
@@ -65,7 +65,7 @@ const LoginPage = ({ history, location }) => {
     initialValues: { email: "", password: "" },
     validate,
     onSubmit: (values, { setSubmitting }) => {
-      submitData(values,setSubmitting);
+      submitData(values, setSubmitting);
     },
   });
 
@@ -122,7 +122,7 @@ const LoginPage = ({ history, location }) => {
 
         <Typography variant="subtitle1">
           Create new account{" "}
-          <Link to={{ pathname: "/signin", state: { from: location.state } }}>
+          <Link to={{ pathname: "/signin", state: { from: location.state.from } }}>
             Sign in
           </Link>
         </Typography>

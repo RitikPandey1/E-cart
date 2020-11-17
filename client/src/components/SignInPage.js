@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import MainGridLayout from "./MainGridLayout";
+import LoadingButton from "./LoadingButton";
 
 const useStyle = makeStyles((theme) => ({
   form: {
@@ -53,11 +54,10 @@ const SignInPage = ({ history, location }) => {
       const { data } = await axios.post("/api/v1/ecartUsers/signup", {
         ...values,
       });
+      setSubmitting(false);
       if (data.status === "Success") {
-        console.log(data);
         const { from } = location.state || { from: { pathname: "/" } };
-        console.log(from);
-        history.replace(from.pathname);
+        history.replace(from);
       }
     },
   });
@@ -123,16 +123,25 @@ const SignInPage = ({ history, location }) => {
             true
           }
         />
-        <Button
-          fullWidth
-          variant="contained"
-          className={classes.formElement}
-          color="primary"
-          type="submit"
-          disabled={formik.isSubmitting}
-        >
-          sign in
-        </Button>
+        {formik.isSubmitting ? (
+          <LoadingButton
+            text="sign in"
+            fullWidth
+            className={classes.formElement}
+          />
+        ) : (
+          <Button
+            fullWidth
+            variant="contained"
+            className={classes.formElement}
+            color="primary"
+            type="submit"
+            disabled={formik.isSubmitting}
+          >
+            sign in
+          </Button>
+        )}
+
         <Typography variant="subtitle1">
           Already have an account ? <Link to="/login">login</Link>
         </Typography>
