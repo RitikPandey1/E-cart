@@ -7,42 +7,42 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
- export const categoryLinks = [
-   {
-     title: "mobiles",
-     path: "/products/mobiles",
-     icon: <PhoneAndroidIcon />,
-   },
-   {
-     title: "laptops",
-     path: "/products/laptops",
-     icon: <LaptopIcon />,
-   },
-   {
-     title: "headsets",
-     path: "/products/headsets",
-     icon: <HeadsetIcon />,
-   },
-   {
-     title: "speaker",
-     path: "/products/speakers",
-     icon: <SurroundSoundIcon />,
-   },
+export const categoryLinks = [
+  {
+    title: "Mobiles",
+    path: "/products/mobiles",
+    icon: <PhoneAndroidIcon />,
+  },
+  {
+    title: "Laptops",
+    path: "/products/laptops",
+    icon: <LaptopIcon />,
+  },
+  {
+    title: "Headsets",
+    path: "/products/headsets",
+    icon: <HeadsetIcon />,
+  },
+  {
+    title: "Speaker",
+    path: "/products/speakers",
+    icon: <SurroundSoundIcon />,
+  },
 ];
- 
+
 export const navLinks = [
   {
-    title: "cart",
+    title: "Cart",
     path: "/cart",
     icon: <ShoppingCartIcon />,
   },
   {
-    title: "order",
+    title: "Order",
     path: "/order",
     icon: <ListAltIcon />,
   },
   {
-    title: "your account",
+    title: "Your Account",
     path: "/account",
     icon: <AccountCircleIcon />,
   },

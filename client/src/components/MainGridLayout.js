@@ -6,18 +6,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  main: {
-    [theme.breakpoints.up("md")]: {
-      width: "calc(100% - 240px)",
-      marginLeft: 240,
-    },
-  },
 }));
 
 const MainGridLayout = ({children}) => {
   const classes = useStyles();
   return (
-    <div className={classes.main}>
+    <div>
       <Toolbar />
       <Grid container>
         <Grid item xs={1} sm={2} />

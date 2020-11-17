@@ -13,8 +13,11 @@ const useStyle = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "100%",
-    marginTop: "50px",
+    width: "70%",
+    margin: "50px auto 0 auto",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
   },
   formElement: { margin: theme.spacing(2, 0, 2, 0) },
 }));
@@ -122,7 +125,9 @@ const LoginPage = ({ history, location }) => {
 
         <Typography variant="subtitle1">
           Create new account{" "}
-          <Link to={{ pathname: "/signin", state: { from: location.state.from } }}>
+          <Link
+            to={{ pathname: "/signin", state: { from: location.state.from } }}
+          >
             Sign in
           </Link>
         </Typography>

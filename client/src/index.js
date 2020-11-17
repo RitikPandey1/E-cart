@@ -1,11 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 
 import LoginPage from "./components/LoginPage";
 import Products from "./components/Products";
 import SignInPage from "./components/SignInPage";
-import TopAndSideBar from "./components/TopAndSideBar/TopAndSideBar";
+import Header from "./components/Header/Header";
 import PrdouctPage from "./components/ProductPage/ProductPage";
 import Cart from "./components/Cart";
 import Order from "./components/Order";
@@ -33,7 +38,7 @@ const PrivateRoute = ({ children, ...rest }) => (
       isAuthenticate() ? (
         children
       ) : (
-        <Redirect to={ { pathname: "/login", state: { from: location } } } />
+        <Redirect to={{ pathname: "/login", state: { from: location } }} />
       )
     }
   />
@@ -44,7 +49,7 @@ const App = () => {
     <div>
       <Router>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <TopAndSideBar />
+          <Header />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/login" component={LoginPage} />
