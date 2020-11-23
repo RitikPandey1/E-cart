@@ -1,14 +1,14 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import Cookies from "js-cookie";
+import isAuth from "../../isAuth";
 
 
 export default ({ addToCart, inCart ,classes ,history,location }) => {
   
     const handleCartClick = () => {
-    const token = Cookies.get("jwt");
-    if (token) {
-      addToCart(token).catch((err) => history.push("/error"));
+    
+    if (isAuth.isLogin) {
+      addToCart(isAuth.token).catch((err) => history.push("/error"));
     } else {
       history.push({ pathname: "/login", state: { from: location } });
     }

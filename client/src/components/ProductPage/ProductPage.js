@@ -9,8 +9,8 @@ import ProductInfo from "./ProductInfo";
 import ProductRating from "./ProductRating";
 import ProductReviews from "./ProductReviews";
 import CartButton from "./CartButton";
-import { useGetHook } from "../../CustomHook";
-import Cookies from "js-cookie";
+import { useGetHook } from "../../customHook";
+import isAuth from "../../isAuth";
 import { loadStripe } from "@stripe/stripe-js";
 import LoadingButton from "../LoadingButton";
 
@@ -59,24 +59,31 @@ const ProductPage = ({ history, location }) => {
   if (error1 || error2) history.push("/error");
 
   const checkoutPage = async (event) => {
-    const stripe = await stripePromise;
-    const token = Cookies.get("jwt");
-    setLoading(true);
-    const response = await axios.post(
-      "/api/v1/ecartproducts/create-checkout-session",
-      {},
-      { headers: { Authorization: "Bearer ".concat(token) } }
-    );
-    setLoading(false);
-    const session = response.data;
+    if (isAuth.isLogin) {
+      const stripe = await stripePromise;
+      setLoading(true);
+      const products = [
+        {
+          name: product.data.name,
+          price: product.data.price,
+          quantity: 1,
+        },
+      ];
+      const response = await axios.post(
+        "/api/v1/ecartproducts/create-checkout-session",
+        { products },
+        { headers: { Authorization: "Bearer ".concat(isAuth.token) } }
+      );
+      setLoading(false);
+      const session = response.data;
 
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
-
-    if (result.error) {
-      history.push("/error");
-    }
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+      if (result.error) {
+        history.push("/error");
+      }
+    } else history.push({ pathname: "/login", state: { from: location } });
   };
 
   const addToCart = async (token) => {

@@ -6,7 +6,7 @@ import StarIcon from "@material-ui/icons/Star";
 import { Typography, ButtonBase, Chip } from "@material-ui/core";
 import Spinner from "./spinner/Spinner";
 import MainGridLayout from "./MainGridLayout";
-import { useGetHook } from "../CustomHook";
+import { useGetHook } from "../customHook";
 
 const useStyles = makeStyles((theme) => ({
   box: {
