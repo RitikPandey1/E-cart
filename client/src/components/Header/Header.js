@@ -23,8 +23,9 @@ import { Link, useHistory } from "react-router-dom";
 import React, { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
+ 
   Drawer: {
-    width: 240,
+    width: '240px',
   },
   linkText: {
     textDecoration: `none`,

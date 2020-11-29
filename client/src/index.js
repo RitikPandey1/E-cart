@@ -16,12 +16,9 @@ import Cart from "./components/Cart";
 import Order from "./components/Order";
 import ErrorPage from "./components/Error/ErrorPage";
 import MainGridLayout from "./components/MainGridLayout";
+import Home from "./components/Home";
 import Cookies from "js-cookie";
-const Home = () => (
-  <MainGridLayout>
-    <h1>welcome to E cart</h1>
-  </MainGridLayout>
-);
+import "./index.css";
 
 const NotFound = () => (
   <MainGridLayout>
@@ -54,9 +51,7 @@ const App = () => {
             <Route exact path="/" component={Home} />
             <Route path="/login" component={LoginPage} />
             <Route path="/signin" component={SignInPage} />
-            <PrivateRoute path="/cart">
-              <Cart />
-            </PrivateRoute>
+            <Route path="/cart" component={Cart} /> 
             <PrivateRoute path="/order">
               <Order />
             </PrivateRoute>

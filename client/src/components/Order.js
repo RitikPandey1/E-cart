@@ -3,7 +3,7 @@ import MainGridLayout from "./MainGridLayout";
 const Order = () => {
   return (
     <MainGridLayout>
-      <h1>Your order</h1>{" "}
+      <h1>Your order</h1>
     </MainGridLayout>
   );
 };

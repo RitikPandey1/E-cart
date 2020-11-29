@@ -16,11 +16,12 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px",
     height: "130px",
   },
-  bottom: {
-    display: "flex",
-    justifyContent: "start",
+  productName: {
+    fontSize:'18px',
   },
-
+  productPrice: {
+   fontSize:'20px', 
+  },
   card: {
     height: "100%",
     border: "0.5px solid #ecf0f1",
@@ -71,7 +72,7 @@ const Products = ({ history }) => {
                     <ButtonBase
                       onClick={() => history.push(`/product/${product._id}`)}
                     >
-                      <Typography variant="subtitle1">
+                      <Typography className={classes.productName}>
                         {" "}
                         {product.name}
                       </Typography>
@@ -85,7 +86,7 @@ const Products = ({ history }) => {
                       />
                     )}
 
-                    <Typography variant="h6">
+                    <Typography className={classes.productPrice} >
                       &#8377;{product.price.toLocaleString()}
                     </Typography>
                   </Grid>
