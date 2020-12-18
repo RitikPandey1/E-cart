@@ -1,26 +1,14 @@
 import { Button, TextField, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import axios from 'axios';
-import ErrorPanel from './Error/ErrorPanel';
-import MainGridLayout from './MainGridLayout';
-import LoadingButton from './LoadingButton';
+import ErrorPanel from '../Error/ErrorPanel';
+import MainGridLayout from '../MainGridLayout';
+import LoadingButton from '../LoadingButton';
+import { store } from "../../globalStore";
+import useStyles from "./style";
 
-const useStyle = makeStyles((theme) => ({
-	form: {
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		width: '70%',
-		margin: '50px auto 0 auto',
-		[theme.breakpoints.down('sm')]: {
-			width: '100%',
-		},
-	},
-	formElement: { margin: theme.spacing(2, 0, 2, 0) },
-}));
 
 const validate = (values) => {
 	const errors = {};
@@ -38,9 +26,10 @@ const validate = (values) => {
 };
 
 const LoginPage = ({ history, location }) => {
-	const classes = useStyle();
+	const classes = useStyles();
 	const [error, setError] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
+	const { dispatch } = useContext(store);
 
 	const submitData = async (values, setSubmitting) => {
 		const response = await axios({
@@ -54,7 +43,8 @@ const LoginPage = ({ history, location }) => {
 
 		setSubmitting(false);
 
-		if (response.data.status === 'Success') {
+    if (response.data.status === 'Success') {
+		 dispatch({ type: 'login' });
 			const { from } = location.state || { from: { pathname: '/' } };
 			history.replace(from);
 		}

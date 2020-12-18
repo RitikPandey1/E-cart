@@ -1,3 +1,4 @@
+import React, { useContext, useState } from 'react';
 import {
 	Drawer,
 	IconButton,
@@ -11,50 +12,25 @@ import {
 	AppBar,
 	Button,
 } from '@material-ui/core';
+import useStyles from "./style";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { makeStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { navLinks, categoryLinks } from './links';
 import { Link, useHistory } from 'react-router-dom';
-import React, { useState } from 'react';
-import { isAuth, logout } from '../../Auth';
+import { store } from '../../globalStore';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-const useStyles = makeStyles((theme) => ({
-	Drawer: {
-		width: '240px',
-	},
-	linkText: {
-		textDecoration: `none`,
-		textTransform: `uppercase`,
-		color: `black`,
-	},
-	menuButton: {
-		[theme.breakpoints.up('md')]: {
-			display: 'none',
-		},
-		color: '#fff',
-	},
-	icon: {
-		fontFamily: 'Roboto Slab',
-		padding: '15px',
-		color: '#fff',
-	},
-	header: {},
-	wrapper: {
-		position: 'absolute',
-		right: 0,
-	},
-}));
 
-const LogoutButton = () => {};
+
 const Header = () => {
-	const [state, setState] = useState({ left: false });
+	const [toggle, setToggle] = useState({ left: false });
 	const [anchorEl1, setAnchorEl1] = React.useState(null);
 	const [anchorEl2, setAnchorEl2] = React.useState(null);
+
+	const { state, dispatch } = useContext(store);
 
 	const openCategory = (event) => {
 		setAnchorEl1(event.currentTarget);
@@ -81,7 +57,7 @@ const Header = () => {
 			return;
 		}
 
-		setState({ [anchor]: open });
+		setToggle({ [anchor]: open });
 	};
 
 	const LinkList = ({ link }) =>
@@ -116,7 +92,6 @@ const Header = () => {
 		</div>
 	);
 
-	console.log(isAuth.isLogin);
 	return (
 		<React.Fragment>
 			<AppBar className={classes.header}>
@@ -196,8 +171,8 @@ const Header = () => {
 										<ListItemText primary={link.title} />
 									</MenuItem>
 								))}
-								{isAuth.isLogin ? (
-									<MenuItem onClick={() => logout()}>
+								{state.isLogin ? (
+									<MenuItem onClick={() => dispatch({ type: 'logout' })}>
 										<ListItemIcon>
 											<ExitToAppIcon />
 										</ListItemIcon>{' '}

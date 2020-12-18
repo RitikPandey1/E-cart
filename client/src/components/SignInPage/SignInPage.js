@@ -1,28 +1,18 @@
 import { Button, TextField, Typography } from '@material-ui/core';
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import axios from 'axios';
-import MainGridLayout from './MainGridLayout';
-import LoadingButton from './LoadingButton';
+import MainGridLayout from '../MainGridLayout';
+import LoadingButton from '../LoadingButton';
+import { store } from '../../globalStore';
+import useStyles from "./style";
 
-const useStyle = makeStyles((theme) => ({
-	form: {
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		width: '70%',
-		[theme.breakpoints.down('sm')]: {
-			width: '100%',
-		},
-		margin: '50px auto 0 auto',
-	},
-	formElement: { margin: theme.spacing(2, 0, 2, 0) },
-}));
 
 const SignInPage = ({ history, location }) => {
-	const classes = useStyle();
+	const classes = useStyles();
+	const { dispatch } = useContext(store);
+
 	const validate = (values) => {
 		const errors = {};
 		if (!values.email) {
@@ -59,6 +49,7 @@ const SignInPage = ({ history, location }) => {
 			});
 			setSubmitting(false);
 			if (data.status === 'Success') {
+				dispatch({ type: 'login' });
 				const { from } = location.state || { from: { pathname: '/' } };
 				history.replace(from);
 			}

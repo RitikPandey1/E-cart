@@ -1,8 +1,8 @@
 import { Button, Grid, Toolbar, Typography, Paper } from '@material-ui/core';
 import React, { useState } from 'react';
 import MainGridLayout from '../MainGridLayout';
-import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+import useStyles from "./style";
 import { useParams } from 'react-router-dom';
 import Spinner from '../spinner/Spinner';
 import ProductInfo from './ProductInfo';
@@ -18,32 +18,7 @@ const stripePromise = loadStripe(
 	'pk_test_51HoAvtGaNOaCdqY8zStX6zrmS85OqUYM8kbJEQypYe9mO57w4RKuOkIUFPeCQb6hXNsBCyjVxInCU7bEEj0Fqlnu00D3595kX7'
 );
 
-const useStyles = makeStyles({
-	button: {
-		margin: '10px auto 10px auto',
-	},
-	buttonArea: {
-		display: 'flex',
-	},
-	imageBox: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	avatar: {
-		backgroundColor: 'green',
-	},
-	review: {
-		display: 'flex',
-		flexDirection: 'column',
-		padding: '10px',
-		justifyContent: 'flex-start',
-		marginTop: '5px',
-	},
-	paper: {
-		padding: '15px',
-	},
-});
+
 
 const ProductPage = ({ history, location }) => {
 	const classes = useStyles();
