@@ -36,23 +36,8 @@ const useStyles = makeStyles((theme) => ({
 		margin: '10px 0 10px 0',
 	},
 	mainHeading: {
-		margin: '20px 0',
-		color: '#111',
-		fontSize: '25px',
-	},
-	searchBox: {
-		display: 'flex',
-		justifyContent: 'center',
-		padding: '40px 0',
-	},
-	srearchField: {
-		width: '300px',
-		boxShadow: '0 10px 6px -6px #dcdcdc',
-	},
-	srcbtn: {
-		boxShadow: '0 10px 6px -6px #dcdcdc',
-		marginLeft: '-10px',
-		backgroundColor: '#3f51b5',
+		color: '#7f8c8d',
+		fontSize: '18px',
 	},
 }));
 

@@ -1,0 +1,156 @@
+import React, { useState } from 'react';
+
+import AppBar from '@material-ui/core/AppBar';
+import SideNav from './SideNav';
+import Button from '@material-ui/core/Button';
+import {
+	IconButton,
+	Grid,
+	MenuItem,
+	ListItemIcon,
+	ListItemText,
+	Menu,
+	TextField,
+} from '@material-ui/core';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
+import useStyles from './style';
+import SearchIcon from '@material-ui/icons/Search';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { categoryRoute, optionsRoute } from './links';
+import { useHistory } from 'react-router-dom';
+
+function Header() {
+	const [anchor, setAnchor] = useState({
+		left: false,
+	});
+	const [anchorEl1, setAnchorEl1] = React.useState(null);
+	const [anchorEl2, setAnchorEl2] = React.useState(null);
+	const history = useHistory();
+	const classes = useStyles();
+
+	const openCategory = (event) => {
+		setAnchorEl1(event.currentTarget);
+	};
+	const closeCategory = () => {
+		setAnchorEl1(null);
+	};
+	const openOption = (event) => {
+		setAnchorEl2(event.currentTarget);
+	};
+
+	const closeOption = () => {
+		setAnchorEl2(null);
+	};
+
+	const toggleDrawer = (pos, open) => (event) => {
+		if (
+			event.type === 'keydown' &&
+			(event.key === 'Tab' || event.key === 'Shift')
+		) {
+			return;
+		}
+		setAnchor({ [pos]: open });
+	};
+
+	return (
+		<AppBar className={classes.header} position='static'>
+			<Grid container>
+				<Grid item xs={12} md={2}>
+					<div className={classes.sidenav}>
+						<IconButton onClick={toggleDrawer('left', true)}>
+							<ClearAllIcon className={classes.themeColor} />
+						</IconButton>
+						<SideNav anchor={anchor} toggleDrawer={toggleDrawer} />
+					</div>
+
+					<Button className={classes.icon}>ECART</Button>
+				</Grid>
+
+				<Grid item xs={12} md={6} className={classes.center}>
+					<div className={classes.searchBox}>
+						<TextField
+							className={classes.srearchField}
+							label='Search Product'
+							variant='outlined'
+							size='small'
+						/>
+						<Button
+							className={classes.srcbtn}
+							variant='contained'
+							color='primary'
+							size='small'
+						>
+							<SearchIcon />
+						</Button>
+					</div>
+				</Grid>
+
+				<Grid item md={4} className={classes.topnav}>
+					<Button
+						className={classes.themeColor}
+						onClick={openCategory}
+						disableElevation
+					>
+						Category <ArrowDropDownIcon className={classes.themeColor} />
+					</Button>
+					<Menu
+						id='simple-menu'
+						anchorEl={anchorEl1}
+						keepMounted
+						open={Boolean(anchorEl1)}
+						onClose={closeCategory}
+					>
+						{categoryRoute.map((link,i) => (
+							<MenuItem
+								key={i}
+								onClick={() => {
+									setAnchorEl2(null);
+									history.push(link.path);
+								}}
+							>
+								<ListItemIcon>{link.icon}</ListItemIcon>
+								<ListItemText primary={link.title} />
+							</MenuItem>
+						))}
+					</Menu>
+					<Button
+						className={classes.themeColor}
+						onClick={openOption}
+						disableElevation
+					>
+						option <ArrowDropDownIcon className={classes.themeColor} />
+					</Button>
+					<Menu
+						id='simple-menu'
+						anchorEl={anchorEl2}
+						keepMounted
+						open={Boolean(anchorEl2)}
+						onClose={closeOption}
+					>
+						{optionsRoute.map((link,i) => {
+							if (link.title === 'Cart') return null;
+							return (
+								<MenuItem
+									key={i}
+									onClick={() => {
+										setAnchorEl2(null);
+										history.push(link.path);
+									}}
+								>
+									<ListItemIcon>{link.icon}</ListItemIcon>
+									<ListItemText primary={link.title} />
+								</MenuItem>
+							);
+						})}
+					</Menu>
+					<Button className={classes.themeColor}>
+						<ShoppingCartIcon className={classes.themeColor} /> Cart
+					</Button>
+				</Grid>
+			</Grid>
+		</AppBar>
+	);
+}
+
+export default Header;

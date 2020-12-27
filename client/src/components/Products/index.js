@@ -1,58 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
 import StarIcon from '@material-ui/icons/Star';
+import { getProducts } from '../../redux/Actions/productAction';
 import {
 	Typography,
 	ButtonBase,
 	Chip,
-	Button,
-	TextField,
-	IconButton,
 } from '@material-ui/core';
+
 import Spinner from '../spinner/Spinner';
-import MainGridLayout from './MainGridLayout';
-import { useGetHook } from '../../customHook';
-import SearchIcon from '@material-ui/icons/Search';
-import useStyles from "./style";
+import GridLayout from '../GridLayout';
+import useStyles from './style';
 
-
-const Products = ({ history }) => {
+const Products = ({ history, loading, category, products, dispatch }) => {
 	const classes = useStyles();
-	const { category } = useParams();
-	const url = `/api/v1/ecartproducts/category/${category}`;
-	const [result, loading, error] = useGetHook(url);
-
-	if (error) history.push('/error');
+	const { name } = useParams();
+	useEffect(() => {
+		dispatch(getProducts(name));
+	}, [name]);
 
 	return (
-		<MainGridLayout>
+		<GridLayout>
 			<div style={{ overflow: 'hidden' }}>
 				{loading ? (
 					<Spinner />
 				) : (
 					<>
 						{' '}
-						<div className={classes.searchBox}>
-							<TextField
-								className={classes.srearchField}
-								label='Search'
-								variant='outlined'
-								size='small'
-							/>
-							<Button
-								className={classes.srcbtn}
-								variant='contained'
-								color='primary'
-								size='small'
-							>
-								<SearchIcon />
-							</Button>
-						</div>
 						<Typography variant='h4' className={classes.mainHeading}>
-							{category}
+							Category / {category.toUpperCase()}
 						</Typography>
-						{result.data.map((product, i) => (
+						{products.map((product, i) => (
 							<Grid container key={i} className={classes.flexBox1}>
 								<Grid item xs={12} sm={4} className={classes.box}>
 									<img
@@ -88,7 +68,12 @@ const Products = ({ history }) => {
 					</>
 				)}
 			</div>
-		</MainGridLayout>
+		</GridLayout>
 	);
 };
-export default Products;
+
+export default connect(({ getProducts }) => ({
+	loading: getProducts.loading,
+	category: getProducts.category,
+	products: getProducts.products,
+}))(Products);

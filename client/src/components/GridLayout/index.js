@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Toolbar } from '@material-ui/core';
 
-const MainGridLayout = ({ children }) => {
+const GridLayout = ({ children }) => {
 	return (
 		<div>
 			<Toolbar />
@@ -17,4 +17,4 @@ const MainGridLayout = ({ children }) => {
 	);
 };
 
-export default MainGridLayout;
+export default GridLayout;
