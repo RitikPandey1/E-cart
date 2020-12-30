@@ -15,10 +15,10 @@ const sendToken = (res, data) => {
     ),
   };
 
-  if (process.env.NODE_ENV === "production") {
-    cookieOptions.secure = true;
-    cookieOptions.httpOnly = true;
-  }
+  // if (process.env.NODE_ENV === "production") {
+  //   cookieOptions.secure = true;
+  //   cookieOptions.httpOnly = true;
+  // }
 
   res.cookie("jwt", token, cookieOptions);
   res.status(201).json({ status: "Success" });

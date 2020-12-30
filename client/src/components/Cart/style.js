@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: '15px',
 	},
 	main: {
-		display: 'flex',
+		display: 'inline-flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		flexDirection: 'column',
