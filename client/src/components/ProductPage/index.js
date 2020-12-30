@@ -1,4 +1,4 @@
-import {  Grid, Toolbar, Typography, Paper } from '@material-ui/core';
+import { Grid, Toolbar, Typography, Paper } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import GridLayout from '../GridLayout';
 import useStyles from './style';
@@ -7,24 +7,30 @@ import Spinner from '../spinner/Spinner';
 import ProductInfo from './ProductInfo';
 import ProductRating from './ProductRating';
 import ProductReviews from './ProductReviews';
-//import CartButton from './CartButton';
+import CartButton from './CartButton';
 //import { loadStripe } from '@stripe/stripe-js';
 //import LoadingButton from '../LoadingButton';
-import { getProduct, getReviews } from '../../redux/Actions/productAction';
+import { getProduct } from '../../redux/Actions/productAction';
 import { connect } from 'react-redux';
 // const stripePromise = loadStripe(
 // 	'pk_test_51HoAvtGaNOaCdqY8zStX6zrmS85OqUYM8kbJEQypYe9mO57w4RKuOkIUFPeCQb6hXNsBCyjVxInCU7bEEj0Fqlnu00D3595kX7'
 // );
 
-const ProductPage = ({ history, location, loading, product,reviews, dispatch }) => {
+const ProductPage = ({
+	history,
+	location,
+	loading,
+	product,
+	reviews,
+	dispatch,
+}) => {
 	const classes = useStyles();
 
 	const { id } = useParams();
 
 	useEffect(() => {
 		dispatch(getProduct(id));
-		dispatch(getReviews(id));
-	},[id]);
+	}, [id]);
 
 	// const checkoutPage = async (event) => {
 	// 	if (isAuth.isLogin) {
@@ -59,7 +65,7 @@ const ProductPage = ({ history, location, loading, product,reviews, dispatch }) 
 			{loading ? (
 				<Spinner />
 			) : (
-				<Grid container direction='column'>
+				<Grid container direction='column' className={classes.main}>
 					<ProductInfo product={product} classes={classes} />
 					<Grid container item>
 						<Grid item xs={12} sm={6} className={classes.buttonArea}>
@@ -78,13 +84,10 @@ const ProductPage = ({ history, location, loading, product,reviews, dispatch }) 
 							)} */}
 						</Grid>
 						<Grid item xs={12} sm={6} className={classes.buttonArea}>
-							{/* <CartButton
-								addToCart={addToCart}
-								inCart={product.inCart || inCart}
-								classes={classes}
-								history={history}
-								location={location}
-							/> */}
+							 <CartButton
+									classes={classes}
+									product={product}
+							/> 
 						</Grid>
 					</Grid>
 					<Grid item>
@@ -104,7 +107,7 @@ const ProductPage = ({ history, location, loading, product,reviews, dispatch }) 
 	);
 };
 
-export default connect(({getProduct}) => ({
+export default connect(({ getProduct }) => ({
 	product: getProduct.product,
 	reviews: getProduct.reviews,
 	loading: getProduct.loading,

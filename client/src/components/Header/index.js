@@ -11,6 +11,7 @@ import {
 	ListItemText,
 	Menu,
 	TextField,
+	Badge,
 } from '@material-ui/core';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import useStyles from './style';
@@ -19,8 +20,9 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { categoryRoute, optionsRoute } from './links';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-function Header() {
+function Header({noOfItems}) {
 	const [anchor, setAnchor] = useState({
 		left: false,
 	});
@@ -101,7 +103,7 @@ function Header() {
 						open={Boolean(anchorEl1)}
 						onClose={closeCategory}
 					>
-						{categoryRoute.map((link,i) => (
+						{categoryRoute.map((link, i) => (
 							<MenuItem
 								key={i}
 								onClick={() => {
@@ -128,7 +130,7 @@ function Header() {
 						open={Boolean(anchorEl2)}
 						onClose={closeOption}
 					>
-						{optionsRoute.map((link,i) => {
+						{optionsRoute.map((link, i) => {
 							if (link.title === 'Cart') return null;
 							return (
 								<MenuItem
@@ -144,13 +146,23 @@ function Header() {
 							);
 						})}
 					</Menu>
-					<Button className={classes.themeColor}>
-						<ShoppingCartIcon className={classes.themeColor} /> Cart
-					</Button>
+					<IconButton
+						color='primary'
+						onClick={() => {
+							history.push('/user/cart');
+						}}
+					>
+						<Badge badgeContent={noOfItems} color='primary'>
+							{' '}
+							<ShoppingCartIcon />{' '}
+						</Badge>{' '}
+					</IconButton>
 				</Grid>
 			</Grid>
 		</AppBar>
 	);
 }
 
-export default Header;
+export default connect(({ cart }) => ({
+	noOfItems: cart.noOfItems,
+}))(Header);

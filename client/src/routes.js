@@ -2,8 +2,9 @@ import Product from './components/Products';
 import ProductPage from './components/ProductPage';
 import Login from './components/Login';
 import Signin from './components/Signin';
+import Cart from "./components/Cart";
 
- const routes = [
+const routes = [
 	{
 		path: '/products/category/:name',
 		component: Product,
@@ -22,6 +23,11 @@ import Signin from './components/Signin';
 	{
 		path: '/user/signin',
 		component: Signin,
+		public: true,
+	},
+	{
+		path: '/user/cart',
+		component: Cart,
 		public: true,
 	},
 ];

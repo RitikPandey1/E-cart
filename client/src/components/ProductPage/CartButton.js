@@ -1,37 +1,20 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { isAuth } from '../../Auth';
+import { connect } from 'react-redux';
+import { addItem } from '../../redux/Actions/cartActions';
 
-export default ({ addToCart, inCart, classes, history, location }) => {
-	const handleCartClick = () => {
-		if (isAuth.isLogin) {
-			addToCart(isAuth.token).catch((err) => history.push('/error'));
-		} else {
-			history.push({ pathname: '/login', state: { from: location } });
-		}
-	};
-
-	if (inCart)
-		return (
-			<Button
-				variant='contained'
-				color='primary'
-				size='large'
-				className={classes.button}
-				onClick={() => history.push('/cart')}
-			>
-				Go To Cart
-			</Button>
-		);
+function CartButton({ classes, product, dispatch }) {
 	return (
 		<Button
 			variant='contained'
 			color='primary'
 			size='large'
 			className={classes.button}
-			onClick={handleCartClick}
+			onClick={() => dispatch(addItem(product))}
 		>
 			Add To Cart
 		</Button>
 	);
-};
+}
+
+export default connect()(CartButton);
