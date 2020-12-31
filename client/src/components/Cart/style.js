@@ -74,6 +74,6 @@ const useStyles = makeStyles((theme) => ({
 		height: '200px',
 		border: '1px solid #ecf0f1',
 	},
-}));
+}),{index:1});
 
 export default useStyles;
