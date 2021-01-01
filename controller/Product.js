@@ -1,5 +1,5 @@
 const Product = require("../model/productModel");
-const AppError = require("../utils/AppError");
+const AppError = require("../utils/appError");
 const catchError = require("../utils/catchError");
 const { GridFSBucket, ObjectId } = require("mongodb");
 const fs = require("fs");
