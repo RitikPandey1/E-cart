@@ -2,9 +2,16 @@ import Product from './components/Products';
 import ProductPage from './components/ProductPage';
 import Login from './components/Login';
 import Signin from './components/Signin';
-import Cart from "./components/Cart";
+import Cart from './components/Cart';
+import Home from './components/Home';
 
 const routes = [
+	{
+		path: '/',
+		component: Home,
+		public: true,
+		exact: true,
+	},
 	{
 		path: '/products/category/:name',
 		component: Product,

@@ -22,7 +22,7 @@ import { categoryRoute, optionsRoute } from './links';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-function Header({noOfItems}) {
+function Header({ noOfItems }) {
 	const [anchor, setAnchor] = useState({
 		left: false,
 	});
@@ -66,7 +66,9 @@ function Header({noOfItems}) {
 						<SideNav anchor={anchor} toggleDrawer={toggleDrawer} />
 					</div>
 
-					<Button className={classes.icon}>ECART</Button>
+					<Button className={classes.icon} onClick={() => history.push('/')}>
+						ECART
+					</Button>
 				</Grid>
 
 				<Grid item xs={12} md={6} className={classes.center}>
