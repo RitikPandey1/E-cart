@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/userModel");
 const { promisify } = require("util");
 const catchError = require("../utils/catchError");
-const AppError = require("../utils/AppError");
+const AppError = require("../utils/appError");
 
 const jwtSign = (payload) =>
   jwt.sign(payload, process.env.KEY, { expiresIn: process.env.jwtexpat });
