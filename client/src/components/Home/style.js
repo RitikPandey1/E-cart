@@ -16,7 +16,8 @@ const useStyles = makeStyles(
 			alignItems: 'center',
 			flexDirection: 'column',
 			backgroundColor: '#fff',
-			padding: '20px 40px',
+			width: '200px',
+			padding: '20px 0',
 			boxShadow: ' 0px 6px 15px rgba(0, 0, 0, 0.25)',
 			borderRadius: '15px',
 			color: '#001893',
@@ -29,6 +30,9 @@ const useStyles = makeStyles(
 			backgroundColor: '#fff',
 			padding: '20px ',
 		},
+		infoIcons: {
+			fontSize: '3rem',
+		},
 		badge: {
 			background:
 				'linear-gradient(180deg, rgba(243, 156, 18, 0.6) 0%, #F39C12 100%)',
@@ -36,7 +40,7 @@ const useStyles = makeStyles(
 			boxShadow: '0px 6px 10px rgba(0, 0, 0, 0.25)',
 			padding: '15px 40px',
 			borderRadius: '50px',
-			fontSize: '22px',
+			fontSize: '1.5rem',
 		},
 		shopCategory: {
 			margin: '50px 0',
@@ -48,7 +52,7 @@ const useStyles = makeStyles(
 		},
 		shopIcon: {
 			color: '#FAA720',
-			fontSize: '50px',
+			fontSize: '4rem',
 		},
 		shopCatg: {
 			display: 'flex',

@@ -9,10 +9,10 @@ const useStyles = makeStyles((theme) => ({
 		height: '130px',
 	},
 	productName: {
-		fontSize: '18px',
+		fontSize: '1rem',
 	},
 	productPrice: {
-		fontSize: '20px',
+		fontSize: '1.3rem',
 	},
 	card: {
 		height: '100%',

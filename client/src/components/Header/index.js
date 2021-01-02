@@ -12,6 +12,7 @@ import {
 	Menu,
 	TextField,
 	Badge,
+	Hidden,
 } from '@material-ui/core';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import useStyles from './style';
@@ -59,16 +60,35 @@ function Header({ noOfItems }) {
 		<AppBar className={classes.header} position='static'>
 			<Grid container>
 				<Grid item xs={12} md={2}>
-					<div className={classes.sidenav}>
-						<IconButton onClick={toggleDrawer('left', true)}>
-							<ClearAllIcon className={classes.themeColor} />
-						</IconButton>
-						<SideNav anchor={anchor} toggleDrawer={toggleDrawer} />
-					</div>
+					<div className={classes.top}>
+						<div>
+							<div className={classes.sidenav}>
+								<IconButton onClick={toggleDrawer('left', true)}>
+									<ClearAllIcon className={classes.themeColor} />
+								</IconButton>
+								<SideNav anchor={anchor} toggleDrawer={toggleDrawer} />
+							</div>
 
-					<Button className={classes.icon} onClick={() => history.push('/')}>
-						ECART
-					</Button>
+							<Button
+								className={classes.icon}
+								onClick={() => history.push('/')}
+							>
+								ECART
+							</Button>
+						</div>
+						<IconButton
+							color='primary'
+							className={classes.smallCart}
+							onClick={() => {
+								history.push('/user/cart');
+							}}
+						>
+							<Badge badgeContent={noOfItems} color='primary'>
+								{' '}
+								<ShoppingCartIcon />{' '}
+							</Badge>{' '}
+						</IconButton>
+					</div>
 				</Grid>
 
 				<Grid item xs={12} md={6} className={classes.center}>

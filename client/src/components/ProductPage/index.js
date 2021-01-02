@@ -23,6 +23,7 @@ const ProductPage = ({
 	product,
 	reviews,
 	dispatch,
+	inCart
 }) => {
 	const classes = useStyles();
 
@@ -84,10 +85,7 @@ const ProductPage = ({
 							)} */}
 						</Grid>
 						<Grid item xs={12} sm={6} className={classes.buttonArea}>
-							 <CartButton
-									classes={classes}
-									product={product}
-							/> 
+							<CartButton classes={classes} product={product} inCart={inCart} />
 						</Grid>
 					</Grid>
 					<Grid item>
@@ -107,8 +105,9 @@ const ProductPage = ({
 	);
 };
 
-export default connect(({ getProduct }) => ({
+export default connect(({ getProduct, cart }) => ({
 	product: getProduct.product,
 	reviews: getProduct.reviews,
 	loading: getProduct.loading,
+	inCart: cart.inCart,
 }))(ProductPage);

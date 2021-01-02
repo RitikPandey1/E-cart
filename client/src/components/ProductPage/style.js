@@ -11,6 +11,7 @@ const useStyles = makeStyles(
 		},
 		buttonArea: {
 			display: 'flex',
+			marginTop: '50px',
 		},
 		imageBox: {
 			display: 'flex',
@@ -29,6 +30,15 @@ const useStyles = makeStyles(
 		},
 		paper: {
 			padding: '15px',
+		},
+		price: {
+			fontSize: '1.3rem',
+		},
+		name: {
+			fontSize: '1.5rem',
+		},
+		description: {
+			fontSize: '1 rem',
 		},
 	},
 	{ index: 1 }

@@ -8,7 +8,7 @@ export default ({ product, classes }) => {
 				{' '}
 				<Grid item>
 					<Toolbar />
-					<Typography variant='h5'>{product.name}</Typography> <Toolbar />
+					<Typography  className={classes.name}>{product.name}</Typography> <Toolbar />
 				</Grid>
 				<Grid item className={classes.imageBox}>
 					<img
@@ -19,17 +19,15 @@ export default ({ product, classes }) => {
 				</Grid>
 				<Grid item>
 					<Toolbar />{' '}
-					<Typography variant='h4'>
+					<Typography  className={classes.price}>
 						{' '}
 						&#8377; {product.price.toLocaleString()}{' '}
 					</Typography>
 				</Grid>
 				<Grid item>
-					<Toolbar />
 					<Toolbar>
-						<Typography variant='h6'>{product.description}</Typography>
+						<Typography className={classes.description}>{product.description}</Typography>
 					</Toolbar>
-					<Toolbar />
 				</Grid>{' '}
 			</>
 		);

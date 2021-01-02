@@ -8,11 +8,12 @@ import {
 	IconButton,
 	Container,
 	Button,
+	ButtonBase,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { decQty, incQty, removeItem } from '../../redux/Actions/cartActions';
 
-function Cart({ products, noOfItems, totalPrice, dispatch }) {
+function Cart({ products, noOfItems, totalPrice, dispatch, history }) {
 	const classes = useStyles();
 
 	const EmptyCart = () => (
@@ -47,9 +48,14 @@ function Cart({ products, noOfItems, totalPrice, dispatch }) {
 									/>
 								</Grid>
 								<Grid item xs={12} sm={8} className={classes.info}>
-									<Typography className={classes.name}>
-										{product.name}
-									</Typography>
+									<ButtonBase
+										onClick={() => history.push(`/product/${product._id}`)}
+									>
+										<Typography className={classes.name}>
+											{product.name}
+										</Typography>
+									</ButtonBase>
+
 									<Typography className={classes.price}>
 										&#8377;{product.totalPrice.toLocaleString()}
 									</Typography>

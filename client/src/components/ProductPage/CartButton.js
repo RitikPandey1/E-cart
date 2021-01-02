@@ -3,8 +3,18 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { addItem } from '../../redux/Actions/cartActions';
 
-function CartButton({ classes, product, dispatch }) {
-	return (
+function CartButton({ classes, product, dispatch, inCart }) {
+	return inCart ? (
+		<Button
+			variant='contained'
+			color='primary'
+			size='large'
+			className={classes.button}
+		   disabled
+		>
+			In Cart
+		</Button>
+	) : (
 		<Button
 			variant='contained'
 			color='primary'

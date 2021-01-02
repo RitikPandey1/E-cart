@@ -18,6 +18,15 @@ const useStyles = makeStyles(
 			color: '#4E5DAA',
 			padding: '10px',
 		},
+		top: {
+			display: 'flex',
+			justifyContent: 'space-between',
+		},
+		smallCart: {
+			[theme.breakpoints.up('md')]: {
+				display: 'none',
+			},
+		},
 		themeColor: {
 			color: '#4E5DAA',
 		},
