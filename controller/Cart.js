@@ -38,3 +38,8 @@ exports.removeFromCart = catchError(async (req, res, next) => {
     .status(200)
     .json({ status: "Success", message: "product removed form cart" });
 });
+
+exports.saveCart = catchError(async (req, res, next) => {
+
+
+});

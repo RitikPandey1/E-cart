@@ -13,7 +13,7 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import { decQty, incQty, removeItem } from '../../redux/Actions/cartActions';
 
-function Cart({ products, noOfItems, totalPrice, dispatch, history }) {
+function Cart({ cart, noOfItems, totalPrice, dispatch, history }) {
 	const classes = useStyles();
 
 	const EmptyCart = () => (
@@ -38,7 +38,7 @@ function Cart({ products, noOfItems, totalPrice, dispatch, history }) {
 				<Grid item xs={12} md={8}>
 					<div className={classes.items}>
 						<h2>My cart ({noOfItems})</h2>
-						{products.map((product) => (
+						{cart.map((product) => (
 							<Grid container className={classes.cartProduct}>
 								<Grid item xs={12} sm={4} className={classes.imgBox}>
 									<img
@@ -67,7 +67,7 @@ function Cart({ products, noOfItems, totalPrice, dispatch, history }) {
 												variant='contained'
 												color='primary'
 												className={classes.qtyBtn}
-												onClick={() => dispatch(decQty(product._id))}
+												onClick={() => dispatch(decQty(product._id, cart))}
 											>
 												-
 											</Button>
@@ -76,14 +76,14 @@ function Cart({ products, noOfItems, totalPrice, dispatch, history }) {
 												variant='contained'
 												color='primary'
 												className={classes.qtyBtn}
-												onClick={() => dispatch(incQty(product._id))}
+												onClick={() => dispatch(incQty(product._id, cart))}
 											>
 												+
 											</Button>
 										</div>
 										<IconButton
 											color='primary'
-											onClick={() => dispatch(removeItem(product._id))}
+											onClick={() => dispatch(removeItem(product._id, cart))}
 										>
 											<DeleteIcon />
 										</IconButton>
@@ -143,7 +143,7 @@ function Cart({ products, noOfItems, totalPrice, dispatch, history }) {
 }
 
 export default connect(({ cart }) => ({
-	products: cart.products,
+	cart: cart.cart,
 	noOfItems: cart.noOfItems,
 	totalPrice: cart.totalPrice,
 }))(Cart);
