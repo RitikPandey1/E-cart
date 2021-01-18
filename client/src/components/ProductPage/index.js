@@ -89,7 +89,7 @@ const ProductPage = ({
 						</Grid>
 						<Grid item xs={12} sm={6} className={classes.buttonArea}>
 							{cartLoading ? (
-								<LoadingButton text='Add to cart' />
+									<LoadingButton text='Add to cart' size='large' style={{margin: '10px auto 10px auto'}}/>
 							) : (
 								<CartButton
 									classes={classes}

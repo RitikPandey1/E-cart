@@ -14,6 +14,13 @@ const userSchema = mongoose.Schema({
     unique: true,
     validate: [validator.isEmail, "Invalid email"],
   },
+  mobileNo: {
+    type:Number,
+    unique: true,
+  },
+  address: {
+    type: String, 
+  },
   password: {
     type: String,
     min: [8, "min password length is 8"],

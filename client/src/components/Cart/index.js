@@ -23,6 +23,7 @@ function Cart({
 	login,
 	loading,
 	token,
+	location
 }) {
 	const classes = useStyles(loading);
 
@@ -46,7 +47,7 @@ function Cart({
 				<Button
 					variant='contained'
 					color='primary'
-					onClick={() => history.push('/user/login')}
+					onClick={() => history.push({ pathname: '/user/login', state: { from: location } } )}
 				>
 					login{' '}
 				</Button>
@@ -101,7 +102,7 @@ function Cart({
 														variant='contained'
 														color='primary'
 														className={classes.qtyBtn}
-														onClick={() => dispatch(decQty(item._id, token))}
+														onClick={() => item.qty!=1 && dispatch(decQty(item._id, token))}
 													>
 														-
 													</Button>
