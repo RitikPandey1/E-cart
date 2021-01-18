@@ -54,7 +54,6 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.checkPasswordUpdate = function(jwtTime){
   if (this.passwordChangedAt) {
     const changedTime = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
-    console.log(jwtTime, changedTime);
     return jwtTime < changedTime;
   }
   return false;

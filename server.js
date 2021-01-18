@@ -23,8 +23,8 @@ dotenv.config({ path: './config.env' });
 
 app.use(express.json());
 
-app.use('/api/v1/ecartProducts/', productRouter);
-app.use('/api/v1/ecartUsers', userRouter);
+app.use('/api/v1/ecartproducts/', productRouter);
+app.use('/api/v1/ecartusers/', userRouter);
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'));

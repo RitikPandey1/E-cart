@@ -12,6 +12,7 @@ import CartButton from './CartButton';
 //import LoadingButton from '../LoadingButton';
 import { getProduct } from '../../redux/Actions/productAction';
 import { connect } from 'react-redux';
+import LoadingButton from '../LoadingButton';
 // const stripePromise = loadStripe(
 // 	'pk_test_51HoAvtGaNOaCdqY8zStX6zrmS85OqUYM8kbJEQypYe9mO57w4RKuOkIUFPeCQb6hXNsBCyjVxInCU7bEEj0Fqlnu00D3595kX7'
 // );
@@ -24,7 +25,8 @@ const ProductPage = ({
 	reviews,
 	dispatch,
 	inCart,
-	cart,
+	token,
+	cartLoading,
 }) => {
 	const classes = useStyles();
 
@@ -86,13 +88,17 @@ const ProductPage = ({
 							)} */}
 						</Grid>
 						<Grid item xs={12} sm={6} className={classes.buttonArea}>
-							<CartButton
-								classes={classes}
-								product={product}
-								inCart={inCart}
-								dispatch={dispatch}
-								cart={cart}
-							/>
+							{cartLoading ? (
+								<LoadingButton text='Add to cart' />
+							) : (
+								<CartButton
+									classes={classes}
+									product={product}
+									inCart={inCart}
+									dispatch={dispatch}
+									token={token}
+								/>
+							)}
 						</Grid>
 					</Grid>
 					<Grid item>
@@ -112,10 +118,11 @@ const ProductPage = ({
 	);
 };
 
-export default connect(({ getProduct, cart }) => ({
+export default connect(({ getProduct, cart, auth }) => ({
 	product: getProduct.product,
 	reviews: getProduct.reviews,
 	loading: getProduct.loading,
 	inCart: cart.inCart,
-	cart: cart.cart,
+	token: auth.token,
+	cartLoading: cart.loading,
 }))(ProductPage);

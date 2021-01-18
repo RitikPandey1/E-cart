@@ -3,7 +3,7 @@ import spinner from './loader2.gif';
 
 export default () => {
 	return (
-		<div style={{ display: 'flex', marginRight: 'auto', marginLeft: 'auto' }}>
+		<div style={{ display: 'flex', marginRight: 'auto', marginLeft: 'auto'}}>
 			<img
 				src={spinner}
 				alt='Loading...'
