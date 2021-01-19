@@ -19,11 +19,13 @@ import useStyles from './style';
 import SearchIcon from '@material-ui/icons/Search';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { categoryRoute, optionsRoute } from './links';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { logoutUser } from "../../redux/Actions/authAction";
 
-function Header({ noOfItems }) {
+function Header({ noOfItems, isAuth, dispatch }) {
 	const [anchor, setAnchor] = useState({
 		left: false,
 	});
@@ -45,7 +47,9 @@ function Header({ noOfItems }) {
 	const closeOption = () => {
 		setAnchorEl2(null);
 	};
-
+	
+	const logout = () => dispatch(logoutUser);
+	 
 	const toggleDrawer = (pos, open) => (event) => {
 		if (
 			event.type === 'keydown' &&
@@ -66,7 +70,7 @@ function Header({ noOfItems }) {
 								<IconButton onClick={toggleDrawer('left', true)}>
 									<ClearAllIcon className={classes.themeColor} />
 								</IconButton>
-								<SideNav anchor={anchor} toggleDrawer={toggleDrawer} />
+								<SideNav anchor={anchor} toggleDrawer={toggleDrawer} isAuth={isAuth} logout={logout} />
 							</div>
 
 							<Button
@@ -167,6 +171,15 @@ function Header({ noOfItems }) {
 								</MenuItem>
 							);
 						})}
+						{isAuth? <MenuItem
+									onClick={() => {
+									setAnchorEl2(null);
+								logout();	 
+									}}
+								>
+									<ListItemIcon><ExitToAppIcon/></ListItemIcon>
+									<ListItemText primary="logout" />
+								</MenuItem> :null}
 					</Menu>
 					<IconButton
 						color='primary'
@@ -185,6 +198,7 @@ function Header({ noOfItems }) {
 	);
 }
 
-export default connect(({ cart }) => ({
+export default connect(({ cart,auth }) => ({
 	noOfItems: cart.noOfItems,
+	isAuth : auth.isAuth,
 }))(Header);
