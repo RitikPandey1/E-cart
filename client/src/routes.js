@@ -4,7 +4,7 @@ import Login from './components/Login';
 import Signin from './components/Signin';
 import Cart from './components/Cart';
 import Home from './components/Home';
-
+import MyProfile from "./components/MyProfile";
 const routes = [
 	{
 		path: '/',
@@ -35,6 +35,11 @@ const routes = [
 	{
 		path: '/user/cart',
 		component: Cart,
+		public: true,
+	},
+	{
+		path: '/my-profile',
+		component: MyProfile,
 		public: true,
 	},
 ];

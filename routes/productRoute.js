@@ -36,7 +36,7 @@ router.get('/product/:pid/addtocart', checkProduct, addToCart);
 router.delete('/cart/item/:id/remove', removeFromCart);
 router.get('/cart', getCart);
 router.get('/cart/updateqty/:id/:op', updateQty);
-router.post('/create-checkout-session', createCheckoutSession);
+router.post('/create-checkout-session/:cart?', createCheckoutSession);
 
 //--product review routes
 router.post('/add/review', checkDuplicate, insertRating, addReview);

@@ -24,10 +24,31 @@ const sendToken = (res, data) => {
   res.status(201).json({ status: "Success" });
 };
 
+
+exports.getUser = catchError(async (req, res, next) => {
+  const user = await User.findById(req.user._id).select(
+		'-_id -createdAt -passwordChangedAt -__v'
+	);
+  res.status(200).json({ status: 'Success', data: user });
+})
+
+exports.updateUser = catchError(async (req, res, next) => {
+  const { mobileNo, address, firstName, lastName, email, gender } = req.body;
+  const user = await User.findById(req.user._id);
+  user.mobileNo = mobileNo || user.mobileNo ;
+  user.address = address || user.address;
+  user.firstName = firstName || user.firstName ;
+  user.lastName = lastName || user.lastName;
+  user.email = email || user.email;
+  await user.save({ validateBeforeSave: false });
+  res.status(200).json({ status: 'Success', message: 'User updated' , data:user });
+});
+
 exports.signUp = catchError(async (req, res, next) => {
-  const { name, email, password, confirmPassword } = req.body;
+  const { firstName, lastName, email, password, confirmPassword } = req.body;
   const user = await User.create({
-    name,
+    firstName,
+    lastName,
     email,
     password,
     confirmPassword,
@@ -46,10 +67,7 @@ exports.login = catchError(async (req, res, next) => {
   sendToken(res, user);
 });
 
-exports.logout = (req, res, next) => {
-  res.cookie("jwt", "logout", { httpOnly: true });
-  res.status(200).json({ status: "logout" });
-};
+
 
 exports.protectFirewall = catchError(async (req, res, next) => {
   let token;

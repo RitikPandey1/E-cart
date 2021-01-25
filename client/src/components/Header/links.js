@@ -33,5 +33,5 @@ export const categoryRoute = [
 
 export const optionsRoute = [
 	{ title: 'Order', path: '/order', icon: <ListAltIcon /> },
-	{ title: 'Your Account', path: '/your-account', icon: <AccountCircleIcon /> },
+	{ title: 'My profile', path: '/my-profile', icon: <AccountCircleIcon /> },
 ];

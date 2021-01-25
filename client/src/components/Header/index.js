@@ -133,7 +133,7 @@ function Header({ noOfItems, isAuth, dispatch }) {
 							<MenuItem
 								key={i}
 								onClick={() => {
-									setAnchorEl2(null);
+									setAnchorEl1(null);
 									history.push(link.path);
 								}}
 							>

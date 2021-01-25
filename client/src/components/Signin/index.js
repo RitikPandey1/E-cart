@@ -14,7 +14,8 @@ function Signin({ dispatch, loading, isAuth, location }) {
 	const validate = (values) => {
 		const errors = {};
 
-		if (!values.name) errors.name = 'Required';
+		if (!values.firstName) errors.firstName = 'Required';
+		if (!values.lastName) errors.lastName = 'Required';
 
 		if (!values.email) errors.email = 'Required';
 		else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -35,7 +36,8 @@ function Signin({ dispatch, loading, isAuth, location }) {
 
 	const formik = useFormik({
 		initialValues: {
-			name: '',
+			firstName: '',
+			lastName: '',
 			email: '',
 			password: '',
 			confirmPassword: '',
@@ -60,13 +62,23 @@ function Signin({ dispatch, loading, isAuth, location }) {
 				<h3>Create your account in ECART</h3>
 				<TextField
 					className={classes.input}
-					id='name'
+					id='firstName'
 					type='text'
 					variant='outlined'
-					label='Name'
-					{...getFieldProps('name')}
-					error={error('name')}
-					helperText={error('name', true)}
+					label='firstName'
+					{...getFieldProps('firstName')}
+					error={error('firstName')}
+					helperText={error('firstName', true)}
+				/>
+				<TextField
+					className={classes.input}
+					id='lastName'
+					type='text'
+					variant='outlined'
+					label='lastName'
+					{...getFieldProps('lastName')}
+					error={error('lastName')}
+					helperText={error('lastName', true)}
 				/>
 				<TextField
 					className={classes.input}
