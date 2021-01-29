@@ -34,9 +34,6 @@ function MyProfile({ dispatch, user, loading, token, updating }) {
 		else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
 			errors.email = 'Invalid email address';
 		}
-
-		if (!values.mobileNo) errors.mobileNo = 'Required';
-		if (!values.address) errors.address = 'Required';
 		return errors;
 	};
 
@@ -103,8 +100,6 @@ function MyProfile({ dispatch, user, loading, token, updating }) {
 										id='mobileNo'
 										disabled={state}
 										{...getFieldProps('mobileNo')}
-										error={touched.mobileNo && errors.mobileNo && true}
-										helperText={touched.mobileNo && errors.mobileNo}
 										fullWidth
 									/>
 								</Container>
@@ -128,8 +123,6 @@ function MyProfile({ dispatch, user, loading, token, updating }) {
 										variant='outlined'
 										id='address'
 										{...getFieldProps('address')}
-										error={touched.address && errors.address && true}
-										helperText={touched.address && errors.address}
 										multiline
 										rows={4}
 										disabled={state}

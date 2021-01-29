@@ -4,11 +4,13 @@ const mongoose = require('mongoose');
 const productRouter = require('./routes/productRoute');
 const userRouter = require('./routes/userRoute');
 const errorHandler = require('./utils/errorHandler');
+const { stripeWebhook } = require('./controller/Order');
 const path = require('path');
 
 const app = express();
 
 dotenv.config({ path: './config.env' });
+
 
 (async () => {
 	const mongo = await mongoose.connect(process.env.DATABASE, {
@@ -20,6 +22,9 @@ dotenv.config({ path: './config.env' });
 	console.log('-- Database connected --');
 	exports.db = mongo.connection.db;
 })();
+
+app.post('/stripe-webhook', express.raw({ type: 'application/json' }), stripeWebhook);
+
 
 app.use(express.json());
 

@@ -11,11 +11,11 @@ import CartButton from './CartButton';
 import { loadStripe } from '@stripe/stripe-js';
 import { getProduct } from '../../redux/Actions/productAction';
 import { connect } from 'react-redux';
-import axios from "axios";
+import axios from 'axios';
 import LoadingButton from '../LoadingButton';
 const stripePromise = loadStripe(
 	'pk_test_51HoAvtGaNOaCdqY8zStX6zrmS85OqUYM8kbJEQypYe9mO57w4RKuOkIUFPeCQb6hXNsBCyjVxInCU7bEEj0Fqlnu00D3595kX7'
- );
+);
 
 const ProductPage = ({
 	history,
@@ -27,7 +27,7 @@ const ProductPage = ({
 	inCart,
 	token,
 	cartLoading,
-	isAuth
+	isAuth,
 }) => {
 	const classes = useStyles();
 	const [loading, setLoading] = useState(false);
@@ -37,33 +37,34 @@ const ProductPage = ({
 		dispatch(getProduct(id));
 	}, [id]);
 
-	 const checkoutPage = async (event) => {
-	 	if (isAuth) {
-	 		const stripe = await stripePromise;
-	 		setLoading(true);
-	 		const products = [
-	 			{   
-	 				name: product.name,
-	 				price: product.price,
-	 				quantity: 1,
-	 			},
-	 		];
-	 		const response = await axios.post(
-	 			'/api/v1/ecartproducts/create-checkout-session',
-	 			{ products },
-	 			{ headers: { Authorization: 'Bearer '.concat(token) } }
-	 		);
-	 		setLoading(false);
-	 		const session = response.data;
+	const checkoutPage = async (event) => {
+		if (isAuth) {
+			const stripe = await stripePromise;
+			setLoading(true);
+			const products = [
+				{
+					id: product._id,
+					name: product.name,
+					price: product.price,
+					quantity: 1,
+				},
+			];
+			const response = await axios.post(
+				'/api/v1/ecartproducts/create-checkout-session',
+				{ products },
+				{ headers: { Authorization: 'Bearer '.concat(token) } }
+			);
+			setLoading(false);
+			const session = response.data;
 
-	 		const result = await stripe.redirectToCheckout({
-	 			sessionId: session.id,
-	 		});
-	 		if (result.error) {
-	 			history.push('/error');
-	 		}
-	 	} else history.push({ pathname: '/login', state: { from: location } });
-	 };
+			const result = await stripe.redirectToCheckout({
+				sessionId: session.id,
+			});
+			if (result.error) {
+				history.push('/error');
+			}
+		} else history.push({ pathname: '/login', state: { from: location } });
+	};
 
 	return (
 		<GridLayout>
@@ -74,19 +75,19 @@ const ProductPage = ({
 					<ProductInfo product={product} classes={classes} />
 					<Grid container item>
 						<Grid item xs={12} sm={6} className={classes.buttonArea}>
-								{loading ? (
-									<LoadingButton text='Buy Now' className={classes.button} />
-								) : (
-										<Button
-											variant='contained'
-											color='primary'
-											size='large'
-											className={classes.button}
-										    onClick={checkoutPage}
-										>
-											Buy Now
-										</Button>
-									)}
+							{loading ? (
+								<LoadingButton text='Buy Now' className={classes.button} />
+							) : (
+								<Button
+									variant='contained'
+									color='primary'
+									size='large'
+									className={classes.button}
+									onClick={checkoutPage}
+								>
+									Buy Now
+								</Button>
+							)}
 						</Grid>
 						<Grid item xs={12} sm={6} className={classes.buttonArea}>
 							{cartLoading ? (
@@ -102,8 +103,8 @@ const ProductPage = ({
 									inCart={inCart}
 									dispatch={dispatch}
 									token={token}
-											history={history}
-											location={location}
+									history={history}
+									location={location}
 								/>
 							)}
 						</Grid>
@@ -132,5 +133,5 @@ export default connect(({ getProduct, cart, auth }) => ({
 	inCart: cart.inCart,
 	token: auth.token,
 	cartLoading: cart.loading,
-	isAuth : auth.isAuth
+	isAuth: auth.isAuth,
 }))(ProductPage);
