@@ -43,7 +43,7 @@ const orderProduct = (productList, cart) => {
 		JSON.stringify({
 			product: product.id,
 			qty: product.qty,
-			unitPrice: item.price,
+			unitPrice: product.price,
 		})
 	);
 
