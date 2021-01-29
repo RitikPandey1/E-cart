@@ -60,7 +60,7 @@ exports.createCheckoutSession = catchError(async (req, res, next) => {
 		customer_email: req.user.email,
 		line_items,
 		mode: 'payment',
-		metadata: { ...data },
+		metadata: { 'fromCart':`${cart? true : false}` ,...data },
 		success_url: 'http://127.0.0.1:3000',
 		cancel_url: 'http://127.0.0.1/payment-fail',
 	});
@@ -89,7 +89,7 @@ const addOrder = async (session) => {
 exports.stripeWebhook = (req, res) => {
 	const signature = req.headers['stripe-signature'];
 
-	let event,status;
+	let event, status;
 	try {
 		event = stripe.webhooks.constructEvent(
 			req.body,
@@ -100,7 +100,7 @@ exports.stripeWebhook = (req, res) => {
 		res.status(400).send(`Stripe Error: ${err}`);
 	}
 	if (event.type === 'checkout.session.completed') {
-	   status = addOrder(event.data.object)
-	};
-	res.status(200).json({ recevied: true, status });
+		status = addOrder(event.data.object);
+	}
+	res.status(200).json({ recevied: true, orderStatus: status });
 };
