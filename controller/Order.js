@@ -78,18 +78,19 @@ const addOrder = async (session) => {
 	}));
 
 	console.log(orders);
+	console.log('-----------');
 	try {
-		await Order.insertMany(orders);
-		return 'Success';
+	  	const order = await Order.insertMany(orders);
+		console.log(order);
 	} catch (err) {
-		return err;
+		throw new Error(err);
 	}
 };
 
 exports.stripeWebhook = (req, res) => {
 	const signature = req.headers['stripe-signature'];
 
-	let event, status;
+	let event;
 	try {
 		event = stripe.webhooks.constructEvent(
 			req.body,
@@ -99,8 +100,7 @@ exports.stripeWebhook = (req, res) => {
 	} catch (err) {
 		res.status(400).send(`Stripe Error: ${err}`);
 	}
-	if (event.type === 'checkout.session.completed') {
-		status = addOrder(event.data.object);
-	}
-	res.status(200).json({ recevied: true, orderStatus: status });
+	if (event.type === 'checkout.session.completed') addOrder(event.data.object);
+	
+	res.status(200).json({ recevied: true });
 };
