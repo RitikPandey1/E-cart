@@ -17,13 +17,11 @@ const orderProduct = (productList, cart) => {
 			quantity: item.qty,
 		}));
 
-		data = productList.map((item) =>
-			JSON.stringify({
-				product: item.product._id,
-				qty: item.qty,
-				unitPrice: item.product.price,
-			})
-		);
+		data = productList.map((item) => ({
+			product: item.product._id,
+			qty: item.qty,
+			unitPrice: item.product.price,
+		}));
 
 		return { line_items, data };
 	}
@@ -36,16 +34,14 @@ const orderProduct = (productList, cart) => {
 			},
 			unit_amount: item.price * 100,
 		},
-		quantity: item.quantity,
+		quantity: item.qty,
 	}));
 
-	data = productList.map((product) =>
-		JSON.stringify({
-			product: product.id,
-			qty: product.qty,
-			unitPrice: product.price,
-		})
-	);
+	data = productList.map((product) => ({
+		product: product.id,
+		qty: product.qty,
+		unitPrice: product.price,
+	}));
 
 	return { line_items, data };
 };
@@ -60,7 +56,10 @@ exports.createCheckoutSession = catchError(async (req, res, next) => {
 		customer_email: req.user.email,
 		line_items,
 		mode: 'payment',
-		metadata: { 'fromCart':`${cart? true : false}` ,...data },
+		metadata: {
+			fromCart: `${cart ? true : false}`,
+			data: JSON.stringify(data),
+		},
 		success_url: 'http://127.0.0.1:3000',
 		cancel_url: 'http://127.0.0.1/payment-fail',
 	});
@@ -71,7 +70,7 @@ exports.createCheckoutSession = catchError(async (req, res, next) => {
 });
 
 const addOrder = async (session) => {
-	const data = Object.values(session.metadata).map((item) => JSON.parse(item));
+	const data = JSON.parse(session.metadata.data);
 	const orders = data.map((item) => ({
 		...item,
 		user: session.customer_details.email,
@@ -80,7 +79,7 @@ const addOrder = async (session) => {
 	console.log(orders);
 	console.log('-----------');
 	try {
-	  	const order = await Order.insertMany(orders);
+		const order = await Order.insertMany(orders);
 		console.log(order);
 	} catch (err) {
 		throw new Error(err);
@@ -101,6 +100,6 @@ exports.stripeWebhook = (req, res) => {
 		res.status(400).send(`Stripe Error: ${err}`);
 	}
 	if (event.type === 'checkout.session.completed') addOrder(event.data.object);
-	
+
 	res.status(200).json({ recevied: true });
 };
