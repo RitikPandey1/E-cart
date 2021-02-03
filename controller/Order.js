@@ -1,5 +1,6 @@
 const catchError = require('../utils/catchError');
 const Order = require('../model/orderModel');
+const { emptyCart } = require('./Cart');
 const stripe = require('stripe')(
 	'sk_test_51HoAvtGaNOaCdqY8oM36c2Y60g1ovUTQvke5tZL8EZAcy1eSZZy4gA7NbybgtwsvMxfkpaEpwGcRzmKzQULjSzGC00VRsL3xDv'
 );
@@ -54,13 +55,14 @@ exports.createCheckoutSession = catchError(async (req, res, next) => {
 	const session = await stripe.checkout.sessions.create({
 		payment_method_types: ['card'],
 		customer_email: req.user.email,
+		client_reference_id: req.user._id,
 		line_items,
 		mode: 'payment',
 		metadata: {
 			fromCart: `${cart ? true : false}`,
 			data: JSON.stringify(data),
 		},
-		success_url: 'http://127.0.0.1:3000',
+		success_url: `${req.protocol}://${req.get('host')}/`,
 		cancel_url: 'http://127.0.0.1/payment-fail',
 	});
 
@@ -73,10 +75,8 @@ const addOrder = async (session) => {
 	const data = JSON.parse(session.metadata.data);
 	const orders = data.map((item) => ({
 		...item,
-		user: session.customer_details.email,
+		user: session.client_reference_id,
 	}));
-
-	console.log(orders);
 	console.log('-----------');
 	try {
 		const order = await Order.insertMany(orders);
@@ -84,6 +84,9 @@ const addOrder = async (session) => {
 	} catch (err) {
 		throw new Error(err);
 	}
+
+	if (session.metadata.fromCart === 'true')
+		emptyCart(session.client_reference_id);
 };
 
 exports.stripeWebhook = (req, res) => {
@@ -103,3 +106,12 @@ exports.stripeWebhook = (req, res) => {
 
 	res.status(200).json({ recevied: true });
 };
+
+exports.getOrders = catchError(async (req, res, next) => {
+	const orders = await Order.find({ user: req.user._id });
+
+	res.status(200).json({
+		status: 'Success',
+		data: orders,
+	});
+});

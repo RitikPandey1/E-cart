@@ -5,6 +5,7 @@ import Signin from './components/Signin';
 import Cart from './components/Cart';
 import Home from './components/Home';
 import MyProfile from "./components/MyProfile";
+import Order from "./components/Order";
 const routes = [
 	{
 		path: '/',
@@ -40,6 +41,11 @@ const routes = [
 	{
 		path: '/my-profile',
 		component: MyProfile,
+		public: true,
+	},
+	{
+		path: '/my-orders',
+		component: Order,
 		public: true,
 	},
 ];

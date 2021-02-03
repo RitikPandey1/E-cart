@@ -15,7 +15,7 @@ const {
 	getCart,
 	updateQty,
 } = require('../controller/Cart');
-const Order = require('../controller/Order');
+const {createCheckoutSession, getOrders} = require('../controller/Order');
 
 const {
 	addReview,
@@ -36,7 +36,8 @@ router.get('/product/:pid/addtocart', checkProduct, addToCart);
 router.delete('/cart/item/:id/remove', removeFromCart);
 router.get('/cart', getCart);
 router.get('/cart/updateqty/:id/:op', updateQty);
-router.post('/create-checkout-session/:cart?',Order.createCheckoutSession);
+router.post('/create-checkout-session/:cart?', createCheckoutSession);
+router.get('/orders', getOrders);
 
 //--product review routes
 router.post('/add/review', checkDuplicate, insertRating, addReview);
