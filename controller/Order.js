@@ -55,7 +55,7 @@ exports.createCheckoutSession = catchError(async (req, res, next) => {
 	const session = await stripe.checkout.sessions.create({
 		payment_method_types: ['card'],
 		customer_email: req.user.email,
-		client_reference_id: req.user._id,
+		client_reference_id: JSON.stringify(req.user._id),
 		line_items,
 		mode: 'payment',
 		metadata: {
@@ -75,7 +75,7 @@ const addOrder = async (session) => {
 	const data = JSON.parse(session.metadata.data);
 	const orders = data.map((item) => ({
 		...item,
-		user: session.client_reference_id,
+		user: JSON.parse(session.client_reference_id),
 	}));
 	console.log('-----------');
 	try {
