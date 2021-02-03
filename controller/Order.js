@@ -75,7 +75,7 @@ const addOrder = async (session) => {
 	const data = JSON.parse(session.metadata.data);
 	const orders = data.map((item) => ({
 		...item,
-		user: JSON.parse(session.client_reference_id),
+		user: session.client_reference_id,
 	}));
 	console.log('-----------');
 	try {
