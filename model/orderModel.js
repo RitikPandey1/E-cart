@@ -7,7 +7,8 @@ const orderSchema = mongoose.Schema({
 		required: true,
 	},
 	user: {
-		type: String,
+		type: mongoose.Schema.ObjectId,
+		ref: 'User',
 		required: true,
 	},
 	unitPrice: { type: Number, required: true },
@@ -21,7 +22,7 @@ const orderSchema = mongoose.Schema({
 orderSchema.pre(/^find/, function (next) {
 	this.populate({
 		path: 'product',
-		select: '+name +_id +images'
+		select: '+name +_id +images',
 	});
 	next();
 });
