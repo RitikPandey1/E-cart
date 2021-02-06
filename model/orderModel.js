@@ -22,7 +22,7 @@ const orderSchema = mongoose.Schema({
 orderSchema.pre(/^find/, function (next) {
 	this.populate({
 		path: 'product',
-		select: '+name +_id +images',
+		select: '-description',
 	});
 	next();
 });
