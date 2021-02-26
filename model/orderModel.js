@@ -17,6 +17,10 @@ const orderSchema = mongoose.Schema({
 		type: Date,
 		default: Date.now(),
 	},
+	review: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 orderSchema.pre(/^find/, function (next) {

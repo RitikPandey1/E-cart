@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Grid,
 	Typography,
@@ -11,12 +11,20 @@ import Spinner from '../spinner/Spinner';
 import GridLayout from '../GridLayout/index';
 import { connect } from 'react-redux';
 import { getOrders } from '../../redux/Actions/productAction';
+import Reviews from './Reviews';
 
 function Order({ token, loading, orders, dispatch, history }) {
 	useEffect(() => {
 		dispatch(getOrders(token));
 	}, []);
+	const [modal, setModal] = useState({ open: false, id: null });
 	const classes = useStyles();
+	const handleClick = (id) => {
+		setModal({ open: true, id });
+	};
+	const onClose = () => {
+		setModal({ open: false });
+	};
 
 	return (
 		<GridLayout>
@@ -62,9 +70,18 @@ function Order({ token, loading, orders, dispatch, history }) {
 								</Typography>
 							</Grid>
 							<Grid item xs={12} md={4} className={classes.review}>
-								<Button variant='contained' color='primary'>
+								<Button
+									variant='contained'
+									color='primary'
+									onClick={() => handleClick(order._id)}
+								>
 									Add Review
 								</Button>
+								<Reviews
+									onClose={onClose}
+									modal={modal}
+									reviewSection={classes.reviewSection}
+								/>
 							</Grid>
 						</Grid>
 					))}

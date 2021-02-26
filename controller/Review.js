@@ -38,12 +38,12 @@ exports.insertRating = catchError(async (req, res, next) => {
 });
 
 exports.addReview = catchError(async (req, res, next) => {
-	const { review, rating, product } = req.body;
+	const { review, rating, order } = req.body;
 	const response = await Review.create({
 		review,
 		rating,
 		user: req.user._id,
-		product,
+        order
 	});
 	res.status(201).json({
 		status: 'Success',
