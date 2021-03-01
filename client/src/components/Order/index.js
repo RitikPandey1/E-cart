@@ -91,12 +91,14 @@ function Order({ token, loading, orders, dispatch, history }) {
               </Grid>
             ))
           )}
-          <Reviews
-            onClose={onClose}
-            review={review}
-            setReview={setReview}
-            token={token}
-          />
+          {!order.review ? (
+            <Reviews
+              onClose={onClose}
+              review={review}
+              setReview={setReview}
+              token={token}
+            />
+          ) : null}
         </Container>
       )}
     </GridLayout>
