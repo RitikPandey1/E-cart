@@ -69,7 +69,6 @@ exports.updateQty = catchError(async (req, res, next) => {
 });
 
 exports.emptyCart = async (id) => {
-	console.log("in side del");
 	try {
 		await Cart.deleteMany({ user :id });
 	} catch (error) {

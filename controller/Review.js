@@ -47,7 +47,6 @@ exports.addReview = catchError(async (req, res, next) => {
         product
 	});
 	const order = await Order.findById(orderId);
-	console.log(order);
 	order.review = review._id;
 	await order.save();
 	next();

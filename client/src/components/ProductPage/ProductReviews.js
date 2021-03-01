@@ -8,7 +8,7 @@ export default ({ productReviews, classes }) => {
 		reviews = productReviews.map((review, i) => (
 			<div className={classes.review} key={i}>
 				<Avatar className={classes.avatar}> {review.user.firstName[0]} </Avatar>
-				<Typography variant='subtitle1'>{review.user.name}</Typography>
+				<Typography variant='subtitle1'>{review.user.firstName}</Typography>
 				<Typography variant='caption'> {review.description} </Typography>
 				<Rating
 					name='half-rating'

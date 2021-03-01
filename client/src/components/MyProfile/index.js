@@ -109,10 +109,8 @@ function MyProfile({ dispatch, user, loading, token, updating }) {
 										label='Email Address'
 										variant='outlined'
 										id='email'
-										disabled={state}
+										disabled
 										{...getFieldProps('email')}
-										error={touched.email && errors.email && true}
-										helperText={touched.email && errors.email}
 										fullWidth
 									/>
 								</Container>

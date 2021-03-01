@@ -19,24 +19,14 @@ function Order({ token, loading, orders, dispatch, history }) {
     dispatch(getOrders(token));
   }, []);
 
-  const [review, setReview] = useState({
-    open: false,
-    id: null,
-    rating: 0,
-    description: "",
-  });
+  const [review, setReview] = useState({ open: false });
 
-  const handleClick = (id) => {
-    setReview({ ...review, open: true, id });
+  const handleClick = (product, orderId) => {
+    setReview({ ...review, open: true, product, orderId });
   };
 
   const onClose = () => {
-    setReview({
-      open: false,
-      id: null,
-      rating: 0,
-      description: "",
-    });
+    setReview({});
   };
 
   return (
@@ -46,54 +36,67 @@ function Order({ token, loading, orders, dispatch, history }) {
       ) : (
         <Container>
           <h1>My orders</h1>
-          {orders.map((order, i) => (
-            <Grid container className={classes.orderItem} key={i}>
-              <Grid item xs={12} md={4} className={classes.box}>
-                <img
-                  src={`/api/v1/ecartproducts/product_image/${order.product._id}/${order.product.images[0]}`}
-                  alt="product"
-                  style={{ maxWidth: "100%", height: "100%" }}
-                />{" "}
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <ButtonBase
-                  onClick={() => history.push(`/product/${order.product._id}`)}
-                >
-                  <Typography className={classes.productName}>
-                    {order.product.name}
+          {orders.length === 0 ? (
+            <Typography variant="h6">
+              Your haven't order any product yet !
+            </Typography>
+          ) : (
+            orders.map((order, i) => (
+              <Grid container className={classes.orderItem} key={i}>
+                <Grid item xs={12} md={4} className={classes.box}>
+                  <img
+                    src={`/api/v1/ecartproducts/product_image/${order.product._id}/${order.product.images[0]}`}
+                    alt="product"
+                    style={{ maxWidth: "100%", height: "100%" }}
+                  />{" "}
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <ButtonBase
+                    onClick={() =>
+                      history.push(`/product/${order.product._id}`)
+                    }
+                  >
+                    <Typography className={classes.productName}>
+                      {order.product.name}
+                    </Typography>
+                  </ButtonBase>
+                  <Typography className={classes.productPrice}>
+                    &#8377;{order.unitPrice.toLocaleString()}
                   </Typography>
-                </ButtonBase>
-                <Typography className={classes.productPrice}>
-                  &#8377;{order.unitPrice.toLocaleString()}
-                </Typography>
-                <Typography variant="subtitle2">QTY : {order.qty}</Typography>
-                {order.qty > 1 ? (
-                  <Typography variant="subtitle2">
-                    Total Price :{" "}
-                    {(order.unitPrice * order.qty).toLocaleString()}
+                  <Typography variant="subtitle2">QTY : {order.qty}</Typography>
+                  {order.qty > 1 ? (
+                    <Typography variant="subtitle2">
+                      Total Price : &#8377;
+                      {(order.unitPrice * order.qty).toLocaleString()}
+                    </Typography>
+                  ) : null}
+                  <Typography variant="subtitle2" className={classes.orderDate}>
+                    {new Date(order.createdAt).toLocaleDateString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
                   </Typography>
-                ) : null}
-                <Typography variant="subtitle2" className={classes.orderDate}>
-                  {new Date(order.createdAt).toLocaleDateString("en-US", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </Typography>
+                </Grid>
+                <Grid item xs={12} md={4} className={classes.review}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleClick(order.product._id, order._id)}
+                  >
+                    Add Review
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={12} md={4} className={classes.review}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleClick(order._id)}
-                >
-                  Add Review
-                </Button>
-              </Grid>
-            </Grid>
-          ))}
-          <Reviews onClose={onClose} review={review} setReview={setReview} />
+            ))
+          )}
+          <Reviews
+            onClose={onClose}
+            review={review}
+            setReview={setReview}
+            token={token}
+          />
         </Container>
       )}
     </GridLayout>
