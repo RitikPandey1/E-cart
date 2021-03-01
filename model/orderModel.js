@@ -18,8 +18,8 @@ const orderSchema = mongoose.Schema({
 		default: Date.now(),
 	},
 	review: {
-		type: Boolean,
-		default: false,
+		type: mongoose.Schema.ObjectId,
+		ref:'Review'	
 	},
 });
 

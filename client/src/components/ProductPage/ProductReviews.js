@@ -7,9 +7,9 @@ export default ({ productReviews, classes }) => {
 	if (productReviews.length) {
 		reviews = productReviews.map((review, i) => (
 			<div className={classes.review} key={i}>
-				<Avatar className={classes.avatar}> {review.user.name[0]} </Avatar>
+				<Avatar className={classes.avatar}> {review.user.firstName[0]} </Avatar>
 				<Typography variant='subtitle1'>{review.user.name}</Typography>
-				<Typography variant='caption'> {review.review} </Typography>
+				<Typography variant='caption'> {review.description} </Typography>
 				<Rating
 					name='half-rating'
 					defaultValue={review.rating}

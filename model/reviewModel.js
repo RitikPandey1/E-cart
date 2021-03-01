@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const reviewSchema = mongoose.Schema({
-	review: {
+	description: {
 		type: String,
 		required: true,
 	},
@@ -16,15 +16,15 @@ const reviewSchema = mongoose.Schema({
 		ref: 'User',
 		required: true,
 	},
-	order: {
+	product: {
 		type: mongoose.Schema.ObjectId,
-		ref: 'Order',
+		ref: 'User',
 		required: true,
-	},
+	}
 });
 
 reviewSchema.pre(/^find/, function (next) {
-	this.populate({ path: 'order' });
+	this.populate('user');
 	next();
 });
 

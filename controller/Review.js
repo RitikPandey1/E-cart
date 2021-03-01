@@ -1,11 +1,13 @@
 const Product = require('../model/productModel');
 const Review = require('../model/reviewModel');
+const Order = require('../model/orderModel');
 const AppError = require('../utils/appError');
 const catchError = require('../utils/catchError');
 
 const getAvgRating = (ratings) => {
+	if(ratings.length){
 	const totalRatings = ratings.reduce((sum, rating) => sum + rating, 0);
-	const avgRating = (totalRatings / ratings.length).toFixed(1);
+	let avgRating = (totalRatings / ratings.length).toFixed(1);
 	if (avgRating > 1.0 && avgRating < 1.5) avgRating = 1.5;
 	else if (avgRating > 1.5 && avgRating <= 2.0) avgRating = 2.0;
 	else if (avgRating > 2.0 && avgRating <= 2.5) avgRating = 2.5;
@@ -14,17 +16,12 @@ const getAvgRating = (ratings) => {
 	else if (avgRating > 3.5 && avgRating <= 4.0) avgRating = 4.0;
 	else if (avgRating > 4.0 && avgRating <= 4.5) avgRating = 4.5;
 	else if (avgRating > 4.5 && avgRating <= 5.0) avgRating = 5.0;
-	return avgRating;
+		return avgRating;
+	}
+	return 0;
 };
 
-exports.checkDuplicate = catchError(async (req, res, next) => {
-	const review = await Review.find({
-		$and: [{ user: req.user._id }, { product: req.body.product }],
-	});
-	if (review.length !== 0)
-		return next(new AppError('Fail', 'review already submitted', 400));
-	next();
-});
+
 
 exports.insertRating = catchError(async (req, res, next) => {
 	const reviews = await Review.find({ product: req.body.product });
@@ -34,22 +31,26 @@ exports.insertRating = catchError(async (req, res, next) => {
 	product.averageRating = averageRating;
 	product.totalReviews = reviews.length;
 	await product.save();
-	next();
-});
 
-exports.addReview = catchError(async (req, res, next) => {
-	const { review, rating, order } = req.body;
-	const response = await Review.create({
-		review,
-		rating,
-		user: req.user._id,
-        order
-	});
 	res.status(201).json({
 		status: 'Success',
 		message: ' review submitted',
-		data: response,
 	});
+});
+
+exports.addReview = catchError(async (req, res, next) => {
+	const { description, rating, orderId , product } = req.body;
+    const review = 	await Review.create({
+		description,
+		rating,
+		user: req.user._id,
+        product
+	});
+	const order = await Order.findById(orderId);
+	console.log(order);
+	order.review = review._id;
+	await order.save();
+	next();
 });
 
 exports.getReviews = catchError(async (req, res, next) => {

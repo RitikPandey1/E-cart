@@ -86,7 +86,7 @@ const addOrder = async (session) => {
 	}
 
 	if (session.metadata.fromCart === 'true')
-		emptyCart(session.client_reference_id);
+		emptyCart(JSON.parse(session.client_reference_id));
 };
 
 exports.stripeWebhook = (req, res) => {

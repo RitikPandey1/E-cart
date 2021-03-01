@@ -40,6 +40,6 @@ router.post('/create-checkout-session/:cart?', createCheckoutSession);
 router.get('/orders', getOrders);
 
 //--product review routes
-router.post('/add/review', checkDuplicate, insertRating, addReview);
+router.post('/add/review', addReview, insertRating );
 
 module.exports = router;

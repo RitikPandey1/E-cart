@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  Container,
   Dialog,
   DialogTitle,
   TextField,
@@ -12,36 +11,42 @@ import {
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 
-function Review({ onClose, modal }) {
-  const [value, setValue] = useState(2);
 
+function Review({ onClose, review, setReview }) {
   return (
-    <Dialog
-      onClose={onClose}
-      aria-labelledby="simple-dialog-title"
-      open={modal.open}
-    >
-      <DialogTitle>Add your review:{modal.id}</DialogTitle>
+    <Dialog aria-labelledby="simple-dialog-title" open={review.open}>
+      <DialogTitle>Add your review:{review.id}</DialogTitle>
       <DialogContent>
         <Box component="fieldset" mb={2} borderColor="transparent">
-          <Typography component="legend">Rating</Typography>
+          <Typography component="legend">
+            Rating {review.rating === 0 ? null : review.rating}
+          </Typography>
           <Rating
-            name="simple-controlled"
-            value={value}
-            precision={1}
+            name="product-rating"
+            value={review.rating}
+            precision={0.5}
             onChange={(event, newValue) => {
-              setValue(newValue);
+              setReview({ ...review, rating: newValue });
             }}
           />
         </Box>
 
-        <TextField variant="outlined" label="Review" placeholder="Review" />
+        <TextField
+          variant="outlined"
+          value={review.description}
+          onChange={(e) =>
+            setReview({ ...review, description: e.target.value })
+          }
+          multiline
+          rows={4}
+          label="Review"
+        />
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="primary">
           Submit
         </Button>
-        <Button variant="contained" color="secondary">
+        <Button variant="contained" color="secondary" onClick={onClose}>
           cancel
         </Button>
       </DialogActions>
