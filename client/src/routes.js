@@ -41,12 +41,12 @@ const routes = [
 	{
 		path: '/my-profile',
 		component: MyProfile,
-		public: true,
+		public: false,
 	},
 	{
 		path: '/my-orders',
 		component: Order,
-		public: true,
+		public: false,
 	},
 ];
 

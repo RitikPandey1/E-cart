@@ -81,6 +81,7 @@ exports.protectFirewall = catchError(async (req, res, next) => {
     token = req.cookies.jwt ? req.cookies.jwt : "";
   }
   
+  console.log(token);
   if (!token)
     return next(new AppError("Fail", "Please login to get access", 401));
 

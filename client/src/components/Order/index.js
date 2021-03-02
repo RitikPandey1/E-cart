@@ -79,26 +79,28 @@ function Order({ token, loading, orders, dispatch, history }) {
                     })}
                   </Typography>
                 </Grid>
+
                 <Grid item xs={12} md={4} className={classes.review}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleClick(order.product._id, order._id)}
-                  >
-                    Add Review
-                  </Button>
+  
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleClick(order.product._id, order._id)}
+                    >
+                      Add Review
+                    </Button>
+                  
                 </Grid>
               </Grid>
             ))
           )}
-          {!order.review ? (
-            <Reviews
-              onClose={onClose}
-              review={review}
-              setReview={setReview}
-              token={token}
-            />
-          ) : null}
+
+          <Reviews
+            onClose={onClose}
+            review={review}
+            setReview={setReview}
+            token={token}
+          />
         </Container>
       )}
     </GridLayout>
