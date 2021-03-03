@@ -63,7 +63,7 @@ exports.createCheckoutSession = catchError(async (req, res, next) => {
 			data: JSON.stringify(data),
 		},
 		success_url: `${req.protocol}://${req.get('host')}/`,
-		cancel_url: 'http://127.0.0.1/payment-fail',
+		cancel_url: `${req.protocol}://${req.get('host')}/`,
 	});
 
 	res.json({

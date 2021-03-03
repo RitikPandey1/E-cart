@@ -63,7 +63,7 @@ const ProductPage = ({
       if (result.error) {
         history.push("/error");
       }
-    } else history.push({ pathname: "/login", state: { from: location } });
+    } else history.push({ pathname: "/user/login", state: { from: location } });
   };
 
   return (
