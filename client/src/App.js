@@ -9,7 +9,7 @@ import Header from "./components/Header";
 import routes from "./routes";
 import { connect } from "react-redux";
 import { loadCart } from "./redux/Actions/cartActions";
-import { clearError } from "./redux/Actions/types";
+import { clearError } from "./redux/Actions/authAction";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
@@ -78,7 +78,7 @@ function App({ token, dispatch, error }) {
   );
 }
 
-export default connect(({ auth, error }) => ({
+export default connect(({ auth}) => ({
   token: auth.token,
-  error: error.error,
+  error: auth.error,
 }))(App);

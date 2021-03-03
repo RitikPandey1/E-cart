@@ -46,6 +46,10 @@ exports.updateUser = catchError(async (req, res, next) => {
 
 exports.signUp = catchError(async (req, res, next) => {
   const { firstName, lastName, email, password, confirmPassword } = req.body;
+  const checkUser = await User.find({ email });
+ 
+  if (checkUser.length) return next(new AppError("Fail", `User ${email} already exists`, 400));
+
   const user = await User.create({
     firstName,
     lastName,
@@ -81,7 +85,7 @@ exports.protectFirewall = catchError(async (req, res, next) => {
     token = req.cookies.jwt ? req.cookies.jwt : "";
   }
   
-  console.log(token);
+ 
   if (!token)
     return next(new AppError("Fail", "Please login to get access", 401));
 
