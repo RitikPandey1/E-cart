@@ -6,6 +6,7 @@ const {
 	addProductImg,
 	getProductImg,
 	product,
+	searchProduct
 } = require('../controller/Product');
 const { protectFirewall } = require('../controller/UserAuth');
 const {
@@ -29,6 +30,7 @@ router.get('/category/:category', getProducts);
 router.get('/product_image/:id/:image', getProductImg);
 router.get('/product/:id/reviews', getReviews);
 router.get('/product/:id', product);
+router.get('/search/:srchTxt', searchProduct);
 
 router.use(protectFirewall);
 router.post('/add/Product', uploadData, addProductDetails, addProductImg);

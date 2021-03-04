@@ -22,10 +22,9 @@ const productSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  inCart: {
-    type: Boolean
-  }
 });
+
+productSchema.index({ name: 'text', category: 'text' });
 
 const Product = new mongoose.model("Product", productSchema);
 

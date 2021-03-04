@@ -24,7 +24,7 @@ exports.uploadData = upload.array("photo", 4);
 // get data of all products
 exports.getProducts = catchError(async (req, res, next) => {
   
-  const products = await Product.find({ category: req.params.category });
+  const products = await Product.find({ category: req.params.category }).select("-description -totalReviews");
 
   res.status(200).json({
     status: "Success",
@@ -99,4 +99,16 @@ exports.addProductDetails = catchError(async (req, res, next) => {
 
   req.newProduct = newProduct;
   next();
+});
+
+
+exports.searchProduct = catchError(async (req, res, next) => {
+  const { srchTxt } = req.params;
+  const result = await Product.find({ $text: { $search: srchTxt } });
+
+  res.status(200).json({
+    status: "Success",
+    data: result,
+   })
+
 });
