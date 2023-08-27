@@ -11,7 +11,7 @@
 		"debug": "ndb server.js",
 		"build": "npm install && cd ./client && npm install",
 		"client": "cd ./client &&  npm start",
-		"dev": "concurrently \"npm start \" \"npm run client\""
+		"dev": "concurrently \"npm run start \" \"npm run client\""
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.0",
