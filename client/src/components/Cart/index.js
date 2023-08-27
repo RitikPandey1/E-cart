@@ -21,7 +21,7 @@ import EmptyCart from "./EmptyCart";
 import NotLogin from "./NotLogin";
 
 const stripePromise = loadStripe(
-  "sk_test_51Gx9KkKtflJ30Ln28nF9AdcNhfAOHOWw4TD1uu1KGne5oOm7s9ClTmB8Eyhv7NsTcNIoEk5wWzMFw8UsZd6T7AO500LQdKCDzV"
+  "pk_test_51HoAvtGaNOaCdqY8zStX6zrmS85OqUYM8kbJEQypYe9mO57w4RKuOkIUFPeCQb6hXNsBCyjVxInCU7bEEj0Fqlnu00D3595kX7"
 );
 
 function Cart({
