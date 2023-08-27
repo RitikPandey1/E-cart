@@ -9,8 +9,9 @@
 		"start": "node server.js",
 		"server": "nodemon server.js",
 		"debug": "ndb server.js",
-		"client": "cd ./client &&  yarn start",
-		"dev": "concurrently \"yarn run server\" \"yarn run client\""
+		"build": "npm install && cd ./client && npm install",
+		"client": "cd ./client &&  npm start",
+		"dev": "concurrently \"npm start \" \"npm run client\""
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.0",
