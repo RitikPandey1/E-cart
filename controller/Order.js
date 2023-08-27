@@ -2,7 +2,7 @@ const catchError = require('../utils/catchError');
 const Order = require('../model/orderModel');
 const { emptyCart } = require('./Cart');
 const stripe = require('stripe')(
-	'sk_test_51HoAvtGaNOaCdqY8oM36c2Y60g1ovUTQvke5tZL8EZAcy1eSZZy4gA7NbybgtwsvMxfkpaEpwGcRzmKzQULjSzGC00VRsL3xDv'
+	'sk_test_51Gx9KkKtflJ30Ln28nF9AdcNhfAOHOWw4TD1uu1KGne5oOm7s9ClTmB8Eyhv7NsTcNIoEk5wWzMFw8UsZd6T7AO500LQdKCDzV'
 );
 const orderProduct = (productList, cart) => {
 	let line_items, data;
