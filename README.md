@@ -7,7 +7,7 @@ E-cart is a e-commerce website. It have following features :
 
 
 **Tech Stack : React.js, MaterialUI, Node.js, MongoDB**  
-**Live Demo :** http://ecart11.herokuapp.com/ 
+**Live Demo :** https://e-cart-ctpx.onrender.com 
 
 ![](https://github.com/RitikPandey1/E-cart/blob/master/pics/ecart.gif)
 
